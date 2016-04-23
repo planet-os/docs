@@ -7,6 +7,7 @@ language_tabs:
   - python
 
 toc_footers:
+  - <script async defer src="http://slack.planetos.com/slackin.js"></script>
   - © 2016 Planet OS Inc.
 
 includes:
