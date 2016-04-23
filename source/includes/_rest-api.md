@@ -6,21 +6,21 @@ The Planet OS REST API can be used to integrate disparate spatiotemporal dataset
 The current version of the API is **v1**.
 
 ## Authentication
-Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the <a href="http://data.planetos.com/account/settings/" title="View your account settings">Account Settings</a> screen.
+Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen.
 
 <!-- Your API Key is **{{ api_key }}** embed API key here-->
 
- ## Endpoints
+## Endpoints
 
- 
- <!-- TBD included from spec -->
+- `/datasets/{id}/` provides metadata summary
 
+- `/datasets/{id}/point` provides measurements in a given geographical point
 
- ## Sample Request
+## Sample Request
 
 [api.planetos.com/datasets/noaa_gfs_global_sflux_0.12d/point?lon=-50.5&amp;lat=49.5&amp;count=1&amp;context=reftime_time_lat_lon&amp;apikey={APIKEY}](http://api.planetos.com/datasets/noaa_gfs_global_sflux_0.12d/point?lon=-50.5&amp;lat=49.5&amp;count=1&amp;context=reftime_time_lat_lon&amp;apikey=)
 
- ## Sample Response
+## Sample Response
 
  ```json
  {
@@ -67,10 +67,10 @@ Each Planet OS user is granted a unique API key that is used to authenticate API
 ## Rate Limits
 The REST API is rate limited to **500 calls per day**.
 
-If you'd like to request a rate limit increase, please contact <a href="mailto:help@planetos.com" title="Contact Planet OS support staff to request a rate limit increase.">help@planetos.com</a> with more information on your needs.
+If you'd like to request a rate limit increase, please contact [help@planetos.com](mailto:help@planetos.com "Contact Planet OS support staff to request a rate limit increase.") with more information on your needs.
 
 ## Policies 
-By using the Planet OS REST API, you agree to our <a href="http://data.planetos.com/terms" title="Planet OS Terms of Service">terms of service</a>. Please take a moment to review the terms.
+By using the Planet OS REST API, you agree to our [terms of service](http://data.planetos.com/terms "Planet OS Terms of Service"). Please take a moment to review the terms.
 
 Datasets delivered via Planet OS data access interfaces may be subject to third party licenses that govern acceptable end-uses of the data. If you are unsure of a dataset's license or restrictions, we encourage you to contact the data publisher directly for clarification.
 

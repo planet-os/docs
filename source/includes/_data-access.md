@@ -8,11 +8,11 @@ Planet OS maintains a THREDDS Data Server (TDS) at <a href="//thredds.planetos.c
 The THREDDS Data Server provides a variety of access protocols to our data catalog. We currently support the HTTP protocol and accessing subsets of data via <a href="http://www.opendap.org/" target="_blank" title="Learn more about OPeNDAP">OPeNDAP</a>.
 
 ## REST API
-Planet OS provides a RESTful API for programmatically accessing data at specific locations. Documentation and resources for this API are <a href="#api">included below</a>.
+Planet OS provides a RESTful API for programmatically accessing data at specific locations. Documentation and resources for this API are [included below](#rest-api3).
 
 ## Limits
 Data access is limited by both call rate and transfer volume per user.
 
 For free accounts, users are limited to **500 REST API calls per day** and **5 GB of data transfer per month**.
 
-If your workflow or application requires access that exceeds these limits, please contact <a href="mailto:{{ support_email }}">{{ support_email }}</a>.
+If your workflow or application requires access that exceeds these limits, please contact [help@planetos.com](mailto:help@planetos.com).

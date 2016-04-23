@@ -9,4 +9,4 @@ Here is the list of browsers we currently support.
 
 ## Contact Us
 
-Feedback, support requests, and other inquiries may be directed to <a href="mailto:help@planetos.com" title="Contact Planet OS support staff.">help@planetos.com</a>.
+Feedback, support requests, and other inquiries may be directed to [help@planetos.com](mailto:help@planetos.com "Contact Planet OS support staff").
