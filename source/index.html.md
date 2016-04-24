@@ -2,9 +2,9 @@
 title: Planet OS Product Guide
 
 language_tabs:
-  - json
-  - shell
-  - python
+  - shell: cURL
+  - python: Python
+  - javascript: NodeJS
 
 toc_footers:
   - <script async defer src="http://slack.planetos.com/slackin.js"></script>

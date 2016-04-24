@@ -9,28 +9,259 @@ The current version of the API is **v1**.
 Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen.
 
 #### Example of authenticated HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}?apikey={your_api_key}`
+`GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
 
 Your API Key is <strong class="apikey-placeholder"></strong>.
 
-## Endpoints
+## Metadata Summary Endpoint 
 
-### Dataset metadata summary
-`/datasets/{id}`
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
 
-#### HTTP Request
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "Title":"HYCOM (Hybrid Coordinate Ocean Model) global ocean forecast",
+  "Source":"Operational ocean model output",
+  "Publisher":"HYCOM consortium",
+  "Institution":"HYCOM consortium",
+  "Abstract":"The HYCOM consortium is a multi-institutional effort [...]",
+  "UpdateFrequency":"24 h",
+  "FeatureType":"climatologyMeteorologyAtmosphere",
+  "ProductType":"Forecast",
+  "Refreshed":"2016-04-18T12:43:13",
+  "TemporalResolution":"3 hours",
+  "SpatialResolution":"1/12 degrees",
+  "SpatialExtent":{
+    "type":"MultiPolygon",
+    "coordinates":[[[[-0.5, 85.5 ], [-0.5, 80.5 ], [-1.5, 80.5 ], "..." ] ] ] },
+  "SpatialExtentText":null,
+  "SpatialReferenceSystem":"WGS84",
+  "VerticalExtent":"40 levels from surface to 5000 m below the surface",
+  "TemporalExtentStart":"",
+  "TemporalExtentEnd":"Ongoing",
+  "Licence":"Open data",
+  "LicenceType":"open",
+  "DistributionFormat":"thredds, ftp",
+  "OnlineResource":[ "http://hycom.org/" ],
+  "DataVendorKey":null,
+  "Variables":[
+    {
+      "name":"time",
+      "longName":"Valid Time",
+      "standardName":null,
+      "unit":"microseconds since 1970-01-01 00:00:00",
+      "isData":false,
+      "isCoord":true,
+      "isInfo":false
+    },
+    {
+      "name":"lat",
+      "longName":"Latitude",
+      "standardName":"latitude",
+      "unit":"degrees_north",
+      "isData":false,
+      "isCoord":true,
+      "isInfo":false
+    },
+    {
+      "name":"lon",
+      "longName":"Longitude",
+      "standardName":"longitude",
+      "unit":"degrees_east",
+      "isData":false,
+      "isCoord":true,
+      "isInfo":false
+    },
+    {
+      "name":"salinity",
+      "longName":"Salinity",
+      "standardName":"sea_water_salinity",
+      "unit":"psu",
+      "isData":true,
+      "isCoord":false,
+      "isInfo":false
+    }
+  ]
+}
+```
+
+### HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}`
 
-This API endpoint serves our dataset detail page and all attributes are explained in the [Dataset Summary](#summary) section above.
+This API endpoint serves our dataset detail page and matches details described in [Dataset Summary](#summary) section above.
+
+__Title__: The title or name of the dataset.
+
+__Abstract__: A short summary of the dataset.
+
+__Publisher__: The party from whom the dataset was acquired.
+
+__Institution__: The party who created the dataset.
+
+__Source__: The method of production of the original data. If it was model-generated, source should name the model and its version, as specifically as could be useful. If it is observational, source should characterize it (e.g., 'surface observation' or 'radiosonde').
+
+__ProductType__: Method how data is being produced — observed, modeled, hindcast, reanalysis, etc. More generic than the "Source"
+
+__Refreshed__: Indicate the timestamp at which point system last acquired new data from the publisher
+
+__DistributionFormat__: Available distribution formats as free text
+
+__FeatureType__: Scientific feature type or CDM data type (e.g. GRID, RADIAL, SWATH, IMAGE, ANY_POINT, POINT, PROFILE, SECTION, STATION, STATION_PROFILE, TRAJECTORY)
+
+__License__: Original data access/use license
+
+__LicenseType__: Original data access/use license type — one of (commercial, open) string
+
+__OnlineResource__: Available distribution URLs for original data
+
+__SpatialExtent__: Extent, polygon or multipolygon in GeoJSON notation
+
+__SpatialExtentText__: Free text description of spatial coverage
+
+__SpatialReferenceSystem__: WGS84 or similar
+
+__SpatialResolution__: Spatial resolution of gridded data in meters, decimal degrees or free text
+
+__SpatialResolutionVertical__: Vertical resolution of gridded data in meters, decimal degrees or free text
+
+__TemporalExtentStart__: Temporal extent start time in ISO8601 text format
+
+__TemporalResolution__: Temporal resolution of gridded data in time units or free text
+
+__TemporalextentEnd__: Temporalextent end time in ISO8601 text format OR 'ongoing'
+
+__UpdateFrequency__: How frequently is data updated at its origin. Mostly for regularly updating automatic data
+
+__Variables__: List of variables
+
+__VerticalExtent__: Vertical extent description as text
 
 
-### Data samples (values) in a given geographical point of specified dataset
-`/datasets/{id}/point`
+
+## Data Probe Endpoint
+
+Provides data samples (values) in a given geographical point of specified dataset.
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point?lon=-50.5&lat=49.5&apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point"
+
+querystring = {"lon":"-50.5","lat":"49.5","apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point',
+  qs: { lon: '-50.5', lat: '49.5', apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "stats": {
+    "offset": 0,
+    "count": 1
+  },
+  "entries": [{
+    "context": "reftime_time_lat_lon",
+    "axes": {
+      "reftime": "2016-04-24T12:00:00",
+      "time": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "latitude": 50.0
+    },
+    "data": {
+      "Wind_speed_surface": 4.409999847412109,
+      "Wind_direction_from_which_blowing_surface": 171.86000061035156,
+      "v-component_of_wind_surface": 4.360000133514404,
+      "u-component_of_wind_surface": -0.6200000047683716,
+      "Direction_of_wind_waves_surface": 98.7699966430664,
+      "Primary_wave_mean_period_surface": 10.760000228881836,
+      "Primary_wave_direction_surface": 94.48999786376953,
+      "Significant_height_of_wind_waves_surface": null,
+      "Mean_period_of_wind_waves_surface": 9.59000015258789,
+      "Secondary_wave_mean_period_surface": null,
+      "Significant_height_of_combined_wind_waves_and_swell_surface": 2.1500000953674316,
+      "Secondary_wave_direction_surface": null
+    }
+  }, {
+    "context": "reftime_time_lat_lon_ordered_sequence_of_data",
+    "axes": {
+      "latitude": 50.0,
+      "reftime": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "time": "2016-04-24T12:00:00",
+      "iter_ordered_sequence_of_data": 0.0
+    },
+    "data": {
+      "Direction_of_swell_waves_ordered_sequence_of_data": 148.16000366210938,
+      "Mean_period_of_swell_waves_ordered_sequence_of_data": 9.539999961853027,
+      "Significant_height_of_swell_waves_ordered_sequence_of_data": 0.9599999785423279
+    }
+  }]
+}
+```
 
 #### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/point?lon=&lat=&`
+`GET http://api.planetos.com/v1/datasets/{id}/point?lon=&lat=`
 
-#### HTTP GET PARAMS
+#### HTTP Query Parameters
 
 <table class="ui very basic padded table api-parameters">
     <tbody>
