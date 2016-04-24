@@ -70,6 +70,16 @@ html, body {
   font-size: 13px;
   font-weight: bold;
 
+  .logo-wrapper {
+    text-align: center;
+    min-height: 50px;
+
+    img {
+      height: 30px;
+      margin: 10px;
+    }
+  }
+
   // language selector for mobile devices
   .lang-selector {
     display: none;

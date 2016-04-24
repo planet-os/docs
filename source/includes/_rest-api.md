@@ -8,7 +8,10 @@ The current version of the API is **v1**.
 ## Authentication
 Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen.
 
-<!-- Your API Key is **{{ api_key }}** embed API key here-->
+#### Example of authenticated HTTP Request
+`GET http://api.planetos.com/v1/datasets/{id}?apikey={your_api_key}`
+
+Your API Key is <strong class="apikey-placeholder"></strong>.
 
 ## Endpoints
 
@@ -34,8 +37,8 @@ This API endpoint serves our dataset detail page and all attributes are explaine
         <tr>
             <td>
                 <div class="ui list">
-                    <div class="item name">lat</div>
-                    <div class="item optional">optional</div>
+                    <div class="item name"><strong>lat</strong></div>
+                    <div class="item required"><strong>required</strong></div>
                 </div>
             </td>
             <td>
@@ -48,8 +51,8 @@ This API endpoint serves our dataset detail page and all attributes are explaine
         <tr>
             <td>
                 <div class="ui list">
-                    <div class="item name">lon</div>
-                    <div class="item optional">optional</div>
+                    <div class="item name"><strong>lon</strong></div>
+                    <div class="item required"><strong>required</strong></div>
                 </div>
             </td>
             <td>
@@ -92,7 +95,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">buffer</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">0</div>
+                    <div class="item default">default: 0</div>
                 </div>
             </td>
             <td>
@@ -121,7 +124,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">count</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">1</div>
+                    <div class="item default">default: 1</div>
                 </div>
             </td>
             <td>
@@ -136,7 +139,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">offset</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">0</div>
+                    <div class="item default">default: 0</div>
                 </div>
             </td>
             <td>
@@ -179,7 +182,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">nearest</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">true</div>
+                    <div class="item default">default: true</div>
                 </div>
             </td>
             <td>
@@ -208,7 +211,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">reftime_recent</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">true</div>
+                    <div class="item default">default: true</div>
                 </div>
             </td>
             <td>
@@ -237,7 +240,7 @@ This API endpoint serves our dataset detail page and all attributes are explaine
                 <div class="ui list">
                     <div class="item name">verbose</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">false</div>
+                    <div class="item default">default: false</div>
                 </div>
             </td>
             <td>
