@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Planet OS Product Guide</title>
 
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -88,10 +86,15 @@
   color: #90a959;
 }
     </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
+
+    <script src="javascripts/apikey.js"></script>
+
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;,&quot;shell&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -99,10 +102,12 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" />
+      <div class="logo-wrapper">
+        <img src="http://data.planetos.com/userland/img/planetos-logo.svg" />
+      </div>
         <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
               <a href="#" data-language-name="python">python</a>
         </div>
         <div class="search">
@@ -112,234 +117,396 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+            <li><script async defer src="http://slack.planetos.com/slackin.js"></script></li>
+            <li>© 2016 Planet OS Inc.</li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="introduction">Introduction</h1>
+        <h1 id="planet-os-product-guide">Planet OS Product Guide</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>This guide provides an overview of the key features and concepts of Planet OS.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+          <h1 id="datasets">Datasets</h1>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<p>Planet OS maintains <a title="Planet OS Data Catalog" href="http://data.planetos.com/datasets">a curated catalog of public and commercial datasets</a>. For each of the datasets in our catalog, Planet OS provides a detailed summary page that contains key metadata attributes and a downsampled dataset preview.</p>
 
-<h1 id="authentication">Authentication</h1>
+<h2 id="summary">Summary</h2>
 
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>The summary section provides key metadata attributes for the dataset. Each of these attributes is explained in further detail below.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<dl>
+    <dt>Publisher</dt>
+    <dd>The party from whom the dataset was acquired.</dd>
+    <dt>Source</dt>
+    <dd>The *specific* method of production of the original data. If the product was model-generated, source should name the model and its version. If the dataset is observational, *source* should characterize the empirical method (e.g. surface observation, radiosonde, etc.).</dd>
+    <dt>Abstract</dt>
+    <dd>A short, descriptive summary of the dataset.</dd>
+    <dt>Refreshed</dt>
+    <dd>The time at which Planet OS last acquired new data from the dataset publisher.</dd>
+    <dt>Update Frequency</dt>
+    <dd>The frequency at which data is updated at its origin (e.g. hourly, daily, monthly).</dd>
+    <dt>Product Type</dt>
+    <dd>The general method by which data is produced (e.g. observed, modeled, hindcast, reanalysis).</dd>
+    <dt>Feature Type</dt>
+    <dd>Scientific feature type or CDM data type (e.g. GRID, RADIAL, SWATH, IMAGE, ANY_POINT, POINT, PROFILE, SECTION, STATION, STATION_PROFILE, TRAJECTORY).</dd>
+    <dt>Spatial Reference System</dt>
+    <dd>The spatial reference system used by the dataset (e.g. WGS84).</dd>
+    <dt>Temporal Resolution</dt>
+    <dd>The temporal resolution of the data in time units or free text.</dd>
+    <dt>Spatial Resolution</dt>
+    <dd>The spatial resolution of the data in meters, decimal degrees or free text.</dd>
+</dl>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<h2 id="extent">Extent</h2>
 
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>The extent section describes the spatial and temporal extent of the dataset. The minimum and maximum latitude and longitude are expressed as decimal degrees. For datasets with a vertical extent, this information is also included.</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>The start and end date of the available data are provided as well. Datasets that are actively producing new data are denoted as &ldquo;Ongoing&rdquo;.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<h2 id="variables">Variables</h2>
 
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<p>The variables section includes information about all dataset variables, including the variable name, long name, and unit. The total number of variables is shown in parenteses immediately after the section title.</p>
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+<p>At the right of the section header is the vocabulary used for the variables. Typically this is a CF (Climate and Forecast) convention, and includes the specific version of the vocabulary is also included when available.</p>
 
-<h1 id="kittens">Kittens</h1>
+<p>When performing API queries, the variable name shown in this section may be used to request specific variables.</p>
 
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id="dimensions">Dimensions</h2>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>The dimensions of the dataset are displayed separately in this section. Typically this includes dimensions such as time, reference time, latitude and longitude.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<h2 id="license">License</h2>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+<p>When provided by the publisher, the dataset&rsquo;s license is included here for reference.</p>
 
-<p>This endpoint retrieves all kittens.</p>
+          <h1 id="data-access">Data Access</h1>
 
-<h3 id="http-request">HTTP Request</h3>
+<p>Planet OS provides a variety of interfaces for accessing data. Details regarding the available data access methods and protocols, as well as rate and volume limiting are discussed below.</p>
 
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
+<h2 id="thredds-data-server-tds">THREDDS Data Server (TDS)</h2>
 
-<h3 id="query-parameters">Query Parameters</h3>
+<p>Planet OS maintains a THREDDS Data Server (TDS) at <a href="//thredds.planetos.com" target="_blank">thredds.planetos.com</a>. TDS is a web server that provides metadata and data access for scientific datasets, using OPeNDAP, OGC WMS and WCS, HTTP, and other remote data access protocols. The TDS is developed and supported by Unidata, a division of the University Corporation for Atmospheric Research (UCAR), and is sponsored by the National Science Foundation. Visit the Unidata website for <a href="http://www.unidata.ucar.edu/software/thredds/current/tds/" target="_blank" title="More information regarding the THREDDS Data Server">more information on TDS</a>.</p>
 
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
+<p>The THREDDS Data Server provides a variety of access protocols to our data catalog. We currently support the HTTP protocol and accessing subsets of data via <a href="http://www.opendap.org/" target="_blank" title="Learn more about OPeNDAP">OPeNDAP</a>.</p>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+<h2 id="rest-api">REST API</h2>
 
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Planet OS provides a RESTful API for programmatically accessing data at specific locations. Documentation and resources for this API are <a href="#rest-api3">included below</a>.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<h2 id="limits">Limits</h2>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<p>Data access is limited by both call rate and transfer volume per user.</p>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<p>For free accounts, users are limited to <strong>500 REST API calls per day</strong> and <strong>5 GB of data transfer per month</strong>.</p>
 
-<p>This endpoint retrieves a specific kitten.</p>
+<p>If your workflow or application requires access that exceeds these limits, please contact <a href="mailto:help@planetos.com">help@planetos.com</a>.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+          <h1 id="rest-api">REST API</h1>
 
-<h3 id="http-request">HTTP Request</h3>
+<p>The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location; responses are provided in JSON format</p>
 
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<h2 id="version">Version</h2>
 
-<h3 id="url-parameters">URL Parameters</h3>
+<p>The current version of the API is <strong>v1</strong>.</p>
 
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
+<h2 id="authentication">Authentication</h2>
 
-          <h1 id="errors">Errors</h1>
+<p>Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the <a title="View your account settings" href="http://data.planetos.com/account/settings/">Account Settings</a> screen.</p>
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
+<h4 id="example-of-authenticated-http-request">Example of authenticated HTTP Request</h4>
 
-<p>The Kittn API uses the following error codes:</p>
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}?apikey={your_api_key}</code></p>
 
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
-</tr>
-</tbody></table>
+<p>Your API Key is <strong class="apikey-placeholder"></strong>.</p>
+
+<h2 id="endpoints">Endpoints</h2>
+
+<h3 id="dataset-metadata-summary">Dataset metadata summary</h3>
+
+<p><code class="prettyprint">/datasets/{id}</code></p>
+
+<h4 id="http-request">HTTP Request</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}</code></p>
+
+<p>This API endpoint serves our dataset detail page and all attributes are explained in the <a href="#summary">Dataset Summary</a> section above.</p>
+
+<h3 id="data-samples-values-in-a-given-geographical-point-of-specified-dataset">Data samples (values) in a given geographical point of specified dataset</h3>
+
+<p><code class="prettyprint">/datasets/{id}/point</code></p>
+
+<h4 id="http-request">HTTP Request</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/point?lon=&amp;lat=&amp;</code></p>
+
+<h4 id="http-get-params">HTTP GET PARAMS</h4>
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name"><strong>lat</strong></div>
+                    <div class="item required"><strong>required</strong></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Latitude in decimal degrees. North latitude is positive.</div>
+                    <div class="item example">37.383252</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name"><strong>lon</strong></div>
+                    <div class="item required"><strong>required</strong></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Longitude in decimal degrees. East longitude is positive.</div>
+                    <div class="item example">-122.005152</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">var</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Name of the specific variable obtained via metadata query.</div>
+                    <div class="item example">water_temp</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">csv</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Convert output of the API into CSV format (useful for direct import into a spreadsheet software).</div>
+                    <div class="item example">true</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">buffer</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: 0</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Search bounding box in decimal degrees. Data with coordinates within this <em>buffer</em> will be returned.</div>
+                    <div class="item example">1.0</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">context</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation.</div>
+                    <div class="item example">main</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">count</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: 1</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">The total number of results to return.</div>
+                    <div class="item example">100</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">offset</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: 0</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Offset the returned results by a specific count.</div>
+                    <div class="item example">100</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">start</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Return values at or after this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item example">2016-04-05T14:30Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">end</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item example">2008-05-11T15:30:00Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">nearest</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: true</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If <em>true</em>, return data only from the point nearest the requested latitude and longitude. By default, this value is true and the nearest point is returned, however if a buffer value is passed, nearest will default to <em>false</em>.</div>
+                    <div class="item example">false</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">reftime_end</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Return values at or before this reference timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item example">2008-05-11T15:30:00Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">reftime_recent</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: true</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If <em>true</em>, returns the full forecast duration using values from the latest available reference time (e.g. most recent). If a partial forecast exists due to processing delays, values from the previous reference time are also included. If either <em>reftime_start</em> or <em>reftime_end</em> values are passed, <em>reftime_recent</em> will default to false.</div>
+                    <div class="item example">false</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">reftime_start</div>
+                    <div class="item optional">optional</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Return values at or after this reference timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item example">2016-04-05T14:30Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">verbose</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">default: false</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If true, display all available metadata.</div>
+                    <div class="item example">true</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="rate-limits">Rate Limits</h2>
+
+<p>The REST API is rate limited to <strong>500 calls per day</strong>.</p>
+
+<p>If you&rsquo;d like to request a rate limit increase, please contact <a title="Contact Planet OS support staff to request a rate limit increase." href="mailto:help@planetos.com">help@planetos.com</a> with more information on your needs.</p>
+
+<h2 id="policies">Policies</h2>
+
+<p>By using the Planet OS REST API, you agree to our <a title="Planet OS Terms of Service" href="http://data.planetos.com/terms">terms of service</a>. Please take a moment to review the terms.</p>
+
+<p>Datasets delivered via Planet OS data access interfaces may be subject to third party licenses that govern acceptable end-uses of the data. If you are unsure of a dataset&rsquo;s license or restrictions, we encourage you to contact the data publisher directly for clarification.</p>
+
+<p>Planet OS reserves the right to suspend or terminate accounts that violate our policies. If you&rsquo;re a mindful and considerate developer, this shouldn&rsquo;t be an issue for you.</p>
+
+          <h1 id="examples">Examples</h1>
+
+<ul>
+<li><p><strong>Point API Backbone wrapper</strong>
+<a href="http://planet-os.github.io/demos/point_api/">Demo dashboard</a> and <a href="https://github.com/planet-os/demos/tree/master/point_api">source code</a></p></li>
+<li><p><strong>Point API quick start</strong>
+<a href="http://planet-os.github.io/demos/point_api/">http://planet-os.github.io/demos/point_api/</a></p></li>
+</ul>
+
+          <h1 id="support">Support</h1>
+
+<p>Here is the list of browsers we currently support.</p>
+
+<ul>
+<li>Chrome Win and Mac 48+</li>
+<li>IE11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not support by Microsoft</a>)</li>
+<li>Safari 8+</li>
+<li>Firefox 40+</li>
+</ul>
+
+<h2 id="contact-us">Contact Us</h2>
+
+<p>Feedback, support requests, and other inquiries may be directed to <a title="Contact Planet OS support staff" href="mailto:help@planetos.com">help@planetos.com</a>.</p>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
                 <a href="#" data-language-name="python">python</a>
           </div>
       </div>

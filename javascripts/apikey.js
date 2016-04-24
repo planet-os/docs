@@ -1,0 +1,1 @@
+var APIKEY;jQuery(function(){jQuery.ajax("http://data.planetos.com/account/status/",{dataType:"jsonp"}).done(function(e){e.apikey&&(APIKEY=e.apikey,jQuery(".apikey-placeholder").each(function(){jQuery(this).text(APIKEY)}),jQuery(".apikey-value-placeholder").each(function(){jQuery(this).val(APIKEY)}))})});
