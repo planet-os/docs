@@ -268,8 +268,8 @@ request(options, function (error, response, body) {
         <tr>
             <td>
                 <div class="ui list">
-                    <div class="item name"><strong>lat</strong></div>
-                    <div class="item required"><strong>required</strong></div>
+                    <div class="item name">lat</div>
+                    <div class="item required">required</div>
                 </div>
             </td>
             <td>
@@ -282,14 +282,29 @@ request(options, function (error, response, body) {
         <tr>
             <td>
                 <div class="ui list">
-                    <div class="item name"><strong>lon</strong></div>
-                    <div class="item required"><strong>required</strong></div>
+                    <div class="item name">lon</strong></div>
+                    <div class="item required">required</div>
                 </div>
             </td>
             <td>
                 <div class="ui list">
                     <div class="item description">Longitude in decimal degrees. East longitude is positive.</div>
                     <div class="item example">-122.005152</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">z</strong></div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">first</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Altitude/depth axis. Is not defined by specific unit, instead allows to select "first", "last" or "all" altitude/depth data "layers"</div>
+                    <div class="item example">(all, first, last)</div>
                 </div>
             </td>
         </tr>
@@ -326,7 +341,7 @@ request(options, function (error, response, body) {
                 <div class="ui list">
                     <div class="item name">buffer</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: 0</div>
+                    <div class="item default">0</div>
                 </div>
             </td>
             <td>
@@ -355,7 +370,7 @@ request(options, function (error, response, body) {
                 <div class="ui list">
                     <div class="item name">count</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: 1</div>
+                    <div class="item default">1</div>
                 </div>
             </td>
             <td>
@@ -370,7 +385,7 @@ request(options, function (error, response, body) {
                 <div class="ui list">
                     <div class="item name">offset</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: 0</div>
+                    <div class="item default">0</div>
                 </div>
             </td>
             <td>
@@ -404,7 +419,7 @@ request(options, function (error, response, body) {
             <td>
                 <div class="ui list">
                     <div class="item description">Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
-                    <div class="item example">2008-05-11T15:30:00Z</div>
+                    <div class="item example">2016-04-11T15:30:00Z</div>
                 </div>
             </td>
         </tr>
@@ -413,7 +428,7 @@ request(options, function (error, response, body) {
                 <div class="ui list">
                     <div class="item name">nearest</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: true</div>
+                    <div class="item default">true</div>
                 </div>
             </td>
             <td>
@@ -433,7 +448,7 @@ request(options, function (error, response, body) {
             <td>
                 <div class="ui list">
                     <div class="item description">Return values at or before this reference timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
-                    <div class="item example">2008-05-11T15:30:00Z</div>
+                    <div class="item example">2016-04-11T15:30:00Z</div>
                 </div>
             </td>
         </tr>
@@ -442,7 +457,7 @@ request(options, function (error, response, body) {
                 <div class="ui list">
                     <div class="item name">reftime_recent</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: true</div>
+                    <div class="item default">true</div>
                 </div>
             </td>
             <td>
@@ -469,9 +484,54 @@ request(options, function (error, response, body) {
         <tr>
             <td>
                 <div class="ui list">
+                    <div class="item name">meta</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">false</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If true, display global metadata.</div>
+                    <div class="item example">true</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">entry_meta</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">false</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If true, display entry metadata.</div>
+                    <div class="item example">true</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">entry_lineage</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">false</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">If true, display entry lineage.</div>
+                    <div class="item example">true</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
                     <div class="item name">verbose</div>
                     <div class="item optional">optional</div>
-                    <div class="item default">default: false</div>
+                    <div class="item default">false</div>
                 </div>
             </td>
             <td>
