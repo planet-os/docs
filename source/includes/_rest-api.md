@@ -1,9 +1,6 @@
-# REST API
+# REST API (v1)
 
 The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location; responses are provided in JSON format
-
-## Version
-The current version of the API is **v1**.
 
 ## Authentication
 Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen.
