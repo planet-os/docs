@@ -7,7 +7,7 @@ language_tabs:
   - javascript: NodeJS
 
 toc_footers:
-  - <script async defer src="http://slack.planetos.com/slackin.js"></script>
+  - <script async defer src="http://slack.planetos.com/slackin.js?large"></script>
   - © 2016 Planet OS Inc.
 
 includes:

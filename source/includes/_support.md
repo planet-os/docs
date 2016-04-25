@@ -1,11 +1,16 @@
 # Support
 
-Here is the list of browsers we currently support.
+## List of browsers we support
 
  - Chrome Win and Mac 48+
  - IE11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not support by Microsoft</a>)
  - Safari 8+
  - Firefox 40+
+
+## Slack chat support
+We have online chat support via public Slack community, [join us](http://slack.planetos.com)!
+
+[![PlanetOS Slack Community](images/Plane-OS-Slack-Community_Final_1200x675px.jpg)](http://slack.planetos.com)
 
 ## Contact Us
 
