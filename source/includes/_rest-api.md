@@ -541,6 +541,16 @@ request(options, function (error, response, body) {
     </tbody>
 </table>
 
+## API Console
+[API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
+It has short descriptions of query parameters and output JSON schema.
+If the user enters his personal API key into an appropriate query field, API Console allows to execute that query and see results.
+
+<a href="images/API-Console-preview.png" data-featherlight><img src="images/API-Console-preview.png" alt="API Console"/></a>
+
+<a href="images/API-Console-execute-query.png" data-featherlight><img src="images/API-Console-execute-query.png" alt="API Console"/></a>
+
+<a href="images/API-Console-results.png" data-featherlight><img src="images/API-Console-results.png" alt="API Console"/></a>
 
 ## Rate Limits
 The REST API is rate limited to **500 calls per day**.
