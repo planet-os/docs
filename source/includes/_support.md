@@ -1,17 +1,15 @@
 # Support
 
-## List of browsers we support
-
- - Chrome Win and Mac 48+
- - IE11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not support by Microsoft</a>)
+## Supported Browsers
+ - Chrome 48+
+ - Internet Explorer 11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not supported by Microsoft</a>)
  - Safari 8+
  - Firefox 40+
 
-## Slack chat support
-We have online chat support via public Slack community, [join us](http://slack.planetos.com)!
-
+## Slack Community
 [![PlanetOS Slack Community](images/Plane-OS-Slack-Community_Final_1200x675px.jpg)](http://slack.planetos.com)
 
-## Contact Us
+[Join the Planet OS Slack Community](http://slack.planetos.com) to discuss new features, request datasets, and ask for help from Planet OS team members and other data enthusiasts.
 
-Feedback, support requests, and other inquiries may be directed to [help@planetos.com](mailto:help@planetos.com "Contact Planet OS support staff").
+## Contact Us
+Feedback, support requests, and other inquiries may be directed to [help@planetos.com](mailto:help@planetos.com "Email Planet OS").

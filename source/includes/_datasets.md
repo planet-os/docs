@@ -9,7 +9,7 @@ The summary section provides key metadata attributes for the dataset. Each of th
     <dt>Publisher</dt>
     <dd>The party from whom the dataset was acquired.</dd>
     <dt>Source</dt>
-    <dd>The *specific* method of production of the original data. If the product was model-generated, source should name the model and its version. If the dataset is observational, *source* should characterize the empirical method (e.g. surface observation, radiosonde, etc.).</dd>
+    <dd>The <em>specific</em> method of production of the original data. If the product was model-generated, source should name the model and its version. If the dataset is observational, <em>source</em> should characterize the empirical method (e.g. surface observation, radiosonde, etc.).</dd>
     <dt>Abstract</dt>
     <dd>A short, descriptive summary of the dataset.</dd>
     <dt>Refreshed</dt>

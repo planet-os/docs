@@ -1,17 +1,16 @@
 # REST API (v1)
-
-The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location; responses are provided in JSON format
+The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location and delivers JSON responses.
 
 ## Authentication
-Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen.
+Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the [Account Settings](http://data.planetos.com/account/settings/ "View your account settings") screen and is provided below if you're currently logged in.
 
-#### Example of authenticated HTTP Request
+Your API Key is:
+<strong class="apikey-placeholder"><a href="http://data.planetos.com/plans" title="Sign up for a Planet OS account" target="_blank">Create an account to receive an API Key</a></strong>
+
+### Example of an Authenticated HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
 
-Your API Key is <strong class="apikey-placeholder"></strong>.
-
 ## Metadata Summary Endpoint 
-
 > Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
 
@@ -116,7 +115,6 @@ request(options, function (error, response, body) {
   ]
 }
 ```
-
 ### HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}`
 
@@ -168,11 +166,8 @@ __Variables__: List of variables
 
 __VerticalExtent__: Vertical extent description as text
 
-
-
-## Data Probe Endpoint
-
-Provides data samples (values) in a given geographical point of specified dataset.
+## Point Data Endpoint
+Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
 
 ```shell
 curl --request GET \
@@ -328,7 +323,7 @@ request(options, function (error, response, body) {
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">Convert output of the API into CSV format (useful for direct import into a spreadsheet software).</div>
+                    <div class="item description">Format the response as comma separated values (CSV).</div>
                     <div class="item example">true</div>
                 </div>
             </td>
@@ -553,7 +548,7 @@ If the user enters his personal API key into an appropriate query field, API Con
 <a href="images/API-Console-results.png" data-featherlight><img src="images/API-Console-results.png" alt="API Console"/></a>
 
 ## Rate Limits
-The REST API is rate limited to **500 calls per day**.
+API rate limits are dependent on your current [plan](http://data.planetos.com/plans). Free accounts are limited to **100 calls per day.**
 
 If you'd like to request a rate limit increase, please contact [help@planetos.com](mailto:help@planetos.com "Contact Planet OS support staff to request a rate limit increase.") with more information on your needs.
 
