@@ -143,7 +143,7 @@
     <dt>Publisher</dt>
     <dd>The party from whom the dataset was acquired.</dd>
     <dt>Source</dt>
-    <dd>The *specific* method of production of the original data. If the product was model-generated, source should name the model and its version. If the dataset is observational, *source* should characterize the empirical method (e.g. surface observation, radiosonde, etc.).</dd>
+    <dd>The <em>specific</em> method of production of the original data. If the product was model-generated, source should name the model and its version. If the dataset is observational, <em>source</em> should characterize the empirical method (e.g. surface observation, radiosonde, etc.).</dd>
     <dt>Abstract</dt>
     <dd>A short, descriptive summary of the dataset.</dd>
     <dt>Refreshed</dt>
@@ -190,35 +190,38 @@
 
 <h2 id="thredds-data-server-tds">THREDDS Data Server (TDS)</h2>
 
-<p>Planet OS maintains a THREDDS Data Server (TDS) at <a href="//thredds.planetos.com" target="_blank">thredds.planetos.com</a>. TDS is a web server that provides metadata and data access for scientific datasets, using OPeNDAP, OGC WMS and WCS, HTTP, and other remote data access protocols. The TDS is developed and supported by Unidata, a division of the University Corporation for Atmospheric Research (UCAR), and is sponsored by the National Science Foundation. Visit the Unidata website for <a href="http://www.unidata.ucar.edu/software/thredds/current/tds/" target="_blank" title="More information regarding the THREDDS Data Server">more information on TDS</a>.</p>
+<p>Planet OS maintains its own THREDDS Data Server (TDS). TDS is a web server that provides metadata and data access for scientific datasets, using OPeNDAP, OGC WMS and WCS, HTTP, and other remote data access protocols. The TDS is developed and supported by Unidata, a division of the University Corporation for Atmospheric Research (UCAR), and is sponsored by the National Science Foundation. Visit the Unidata website for <a href="http://www.unidata.ucar.edu/software/thredds/current/tds/" target="_blank" title="More information regarding the THREDDS Data Server">more information on TDS</a>.</p>
 
 <p>The THREDDS Data Server provides a variety of access protocols to our data catalog. We currently support the HTTP protocol and accessing subsets of data via <a href="http://www.opendap.org/" target="_blank" title="Learn more about OPeNDAP">OPeNDAP</a>.</p>
 
+<p>A button to access data using the Planet OS THREDDS Data Server is provided on individual dataset pages.</p>
+
 <h2 id="rest-api">REST API</h2>
 
-<p>Planet OS provides a RESTful API for programmatically accessing data at specific locations. Documentation and resources for this API are <a href="#rest-api3">included below</a>.</p>
+<p>Planet OS provides a RESTful API for programmatically accessing data at specific locations. Documentation and resources for this API are included below.</p>
 
 <h2 id="limits">Limits</h2>
 
-<p>Data access is limited by both call rate and transfer volume per user.</p>
+<p>Data access is limited by both call rate and transfer volume per user. For details on individual plans, see our <a href="http://data.planetos.com/plans">pricing page</a>.</p>
 
-<p>For free accounts, users are limited to <strong>500 REST API calls per day</strong> and <strong>5 GB of data transfer per month</strong>.</p>
+<p>Free accounts are limited to <strong>100 REST API calls per day</strong> and <strong>5 GB of data transfer per month</strong>.</p>
 
 <p>If your workflow or application requires access that exceeds these limits, please contact <a href="mailto:help@planetos.com">help@planetos.com</a>.</p>
 
           <h1 id="rest-api-v1">REST API (v1)</h1>
 
-<p>The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location; responses are provided in JSON format</p>
+<p>The Planet OS REST API can be used to integrate disparate spatiotemporal datasets into data-driven applications and workflows. The API provides programmatic access to data at a specific location and delivers JSON responses.</p>
 
 <h2 id="authentication">Authentication</h2>
 
-<p>Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the <a title="View your account settings" href="http://data.planetos.com/account/settings/">Account Settings</a> screen.</p>
+<p>Each Planet OS user is granted a unique API key that is used to authenticate API calls. All API endpoints require this key be passed as a query parameter to authenticate the request. Your key may be viewed on the <a title="View your account settings" href="http://data.planetos.com/account/settings/">Account Settings</a> screen and is provided below if you&rsquo;re currently logged in.</p>
 
-<h4 id="example-of-authenticated-http-request">Example of authenticated HTTP Request</h4>
+<p>Your API Key is:
+<strong class="apikey-placeholder"><a href="http://data.planetos.com/plans" title="Sign up for a Planet OS account" target="_blank">Create an account to receive an API Key</a></strong></p>
+
+<h3 id="example-of-an-authenticated-http-request">Example of an Authenticated HTTP Request</h3>
 
 <p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}</code></p>
-
-<p>Your API Key is <strong class="apikey-placeholder"></strong>.</p>
 
 <h2 id="metadata-summary-endpoint">Metadata Summary Endpoint</h2>
 
@@ -375,9 +378,9 @@
 
 <p><strong>VerticalExtent</strong>: Vertical extent description as text</p>
 
-<h2 id="data-probe-endpoint">Data Probe Endpoint</h2>
+<h2 id="point-data-endpoint">Point Data Endpoint</h2>
 
-<p>Provides data samples (values) in a given geographical point of specified dataset.</p>
+<p>Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.</p>
 <pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point?lon=-50.5&amp;lat=49.5&amp;apikey={apikey}'</span>
 </code></pre>
@@ -528,7 +531,7 @@
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">Convert output of the API into CSV format (useful for direct import into a spreadsheet software).</div>
+                    <div class="item description">Format the response as comma separated values (CSV).</div>
                     <div class="item example">true</div>
                 </div>
             </td>
@@ -557,7 +560,7 @@
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -755,7 +758,7 @@ If the user enters his personal API key into an appropriate query field, API Con
 
 <h2 id="rate-limits">Rate Limits</h2>
 
-<p>The REST API is rate limited to <strong>500 calls per day</strong>.</p>
+<p>API rate limits are dependent on your current <a href="http://data.planetos.com/plans">plan</a>. Free accounts are limited to <strong>100 calls per day.</strong></p>
 
 <p>If you&rsquo;d like to request a rate limit increase, please contact <a title="Contact Planet OS support staff to request a rate limit increase." href="mailto:help@planetos.com">help@planetos.com</a> with more information on your needs.</p>
 
@@ -769,41 +772,40 @@ If the user enters his personal API key into an appropriate query field, API Con
 
           <h1 id="examples">Examples</h1>
 
-<h2 id="jupyter-notebooks">Jupyter notebooks</h2>
+<h2 id="jupyter-notebooks">Jupyter Notebooks</h2>
 
-<p><a href="https://github.com/planet-os/notebooks" target="_blank">This repository</a> contains a collection of Planet OS Jupyter notebooks.
-Every notebook is well-annotated, so you can learn step by step while executing it.</p>
+<p>We&rsquo;ve published <a href="https://github.com/planet-os/notebooks" target="_blank">a collection of Jupyter notebooks on GitHub</a> that provide API use case examples in Python. The notebooks are well-annotated so you can learn as you step through the commands.</p>
 
-<p>README file inside repository will provide you with details on how to install Jupyter and required Python modules to get started.</p>
+<p>The repository includes details on how to install Jupyter and the required Python modules, as well as tips to get you started.</p>
 
-<h2 id="point-api-javascript-wrapper">Point API JavaScript wrapper</h2>
+<h2 id="point-api-javascript-wrapper">Point API JavaScript Wrapper</h2>
 
-<p><a href="http://planet-os.github.io/demos/point_api/" target="_blank">Interactive demo</a> with the <a href="https://github.com/planet-os/demos/tree/master/point_api" target="_blank">source code</a>.</p>
+<p>This <a href="http://planet-os.github.io/demos/point_api/" target="_blank">interactive JavaScript demo</a> allows you to select a point on a map and uses the Planet OS API to return <a href="http://data.planetos.com/datasets/noaa_gfs_global_sflux_0.12d:gfs-global-weather-forecast-by-ncep-near-surface-parameters" target="_blank" title="GFS Global Weather Forecast on Planet OS">GFS forecast data</a> at that point.</p>
 
-<p>Please, take a look at the <a href="https://planetos.com/blog/using-the-planet-os-rest-api-with-javascript/" target="_blank">blog post</a> with information about this demo.</p>
+<p>The <a href="https://github.com/planet-os/demos/tree/master/point_api" target="_blank">source code</a> is available on GitHub and our Data Visualization Engineer provides detailed breakdown in <a href="https://planetos.com/blog/using-the-planet-os-rest-api-with-javascript/" target="_blank">Using the Planet OS REST API with Javascript</a>.</p>
 
-<p><a href="https://planetos.com/blog/using-the-planet-os-rest-api-with-javascript/" target="_blank"><img src="https://cdn0.planetos.com/wp-content/uploads/2016/03/point_api_demo-760x736.jpg" alt="JavaScript demo" /></a></p>
+<p><a href="http://planet-os.github.io/demos/point_api/" target="_blank"><img src="https://cdn0.planetos.com/wp-content/uploads/2016/03/point_api_demo-760x736.jpg" alt="JavaScript demo" /></a></p>
 
           <h1 id="support">Support</h1>
 
-<h2 id="list-of-browsers-we-support">List of browsers we support</h2>
+<h2 id="supported-browsers">Supported Browsers</h2>
 
 <ul>
-<li>Chrome Win and Mac 48+</li>
-<li>IE11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not support by Microsoft</a>)</li>
+<li>Chrome 48+</li>
+<li>Internet Explorer 11+ (<a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support" target="_blank">older versions are not supported by Microsoft</a>)</li>
 <li>Safari 8+</li>
 <li>Firefox 40+</li>
 </ul>
 
-<h2 id="slack-chat-support">Slack chat support</h2>
-
-<p>We have online chat support via public Slack community, <a href="http://slack.planetos.com">join us</a>!</p>
+<h2 id="slack-community">Slack Community</h2>
 
 <p><a href="http://slack.planetos.com"><img alt="PlanetOS Slack Community" src="images/Plane-OS-Slack-Community_Final_1200x675px.jpg" /></a></p>
 
+<p><a href="http://slack.planetos.com">Join the Planet OS Slack Community</a> to discuss new features, request datasets, and ask for help from Planet OS team members and other data enthusiasts.</p>
+
 <h2 id="contact-us">Contact Us</h2>
 
-<p>Feedback, support requests, and other inquiries may be directed to <a title="Contact Planet OS support staff" href="mailto:help@planetos.com">help@planetos.com</a>.</p>
+<p>Feedback, support requests, and other inquiries may be directed to <a title="Email Planet OS" href="mailto:help@planetos.com">help@planetos.com</a>.</p>
 
       </div>
       <div class="dark-box">
