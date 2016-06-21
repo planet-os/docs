@@ -536,6 +536,172 @@ request(options, function (error, response, body) {
     </tbody>
 </table>
 
+## Time-series API Endpoints
+Since time-series data has different spatial distribution aspect comparing to model or reanalysis data, it requires different access workflow. There is an API endpoint that lists station IDs by location. Station IDs can be used to query data originated from each of these stations.
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "45017": {
+      "TemporalExtentStart": "2011-08-08T21:00:00",
+      "TemporalExtentEnd": "2011-09-05T02:00:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-88.0, 42.0]
+      }
+    },
+    "46252": {
+      "TemporalExtentStart": "2014-10-01T20:35:00",
+      "TemporalExtentEnd": "2015-12-03T17:05:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-119.0, 34.0]
+      }
+    },
+    "42390": {
+      "TemporalExtentStart": "2012-10-01T00:30:00",
+      "TemporalExtentEnd": "2016-06-20T22:30:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-95.0, 26.0]
+      }
+    },
+    "keca2": {
+      "TemporalExtentStart": "2009-05-06T19:12:00",
+      "TemporalExtentEnd": "2016-06-20T23:12:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-132.0, 55.0]
+      }
+    },
+    "bltm2": {
+      "TemporalExtentStart": "2005-01-07T01:48:00",
+      "TemporalExtentEnd": "2016-06-20T18:54:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-77.0, 39.0]
+      }
+    }
+}
+```
+
+#### HTTP Request
+`GET http://api.planetos.com/v1/datasets/{id}/stations`
+
+Returns JSON object where keys are station IDs and every item (key) has attributes to indicate spatial and temporal bounds of time-series data originated from a station.
+
+```shell
+export STATION_ID=keca2
+curl --request GET \
+  --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/$STATION_ID?apikey={apikey}
+```
+
+```python
+import requests
+station_id = 'keca2'
+
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/%s" % (station_id)
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+var station_id = 'keca2';
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/' + station_id,
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "stats": {
+    "offset": 0,
+    "count": 1
+  },
+  "entries": [{
+    "context": "time_latitude_longitude",
+    "classifiers": {
+      "station": "keca2"
+    },
+    "axes": {
+      "time": "2014-01-01T00:00:00",
+      "longitude": -131.625,
+      "latitude": 55.33100128173828
+    },
+    "data": {
+      "wave_height": null,
+      "sea_surface_temperature": 6.599999904632568,
+      "gust": 4.400000095367432,
+      "wind_spd": 2.0,
+      "water_level": null,
+      "dewpt_temperature": null,
+      "air_temperature": 7.199999809265137,
+      "air_pressure": 1020.2999877929688,
+      "wind_dir": 112.0,
+      "average_wpd": null,
+      "visibility": null,
+      "dominant_wpd": null,
+      "mean_wave_dir": null
+    }
+  }]
+}
+```
+
+#### HTTP Request
+`GET http://api.planetos.com/v1/datasets/{id}/{station_id}`
+
+Returns time-series data in similar to Point Data API output format.
+
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
 It has short descriptions of query parameters and output JSON schema.
