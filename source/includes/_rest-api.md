@@ -47,6 +47,22 @@ request(options, function (error, response, body) {
 
 ```
 
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+
+dataset_meta_url = sprintf('%sdatasets/%s', api_root_url, dataset_id)
+metadata = webread(dataset_meta_url, 'apikey', apikey)
+disp(metadata.Title)
+
+% make a list of variables containing data
+data_variables_idxes = arrayfun(@(x) x.isData, metadata.Variables)
+data_variables = metadata.Variables(data_variables_idxes)
+disp(data_variables)
+
+```
+
 > The above command returns JSON structured like this:
 
 ```json
@@ -199,6 +215,28 @@ request(options, function (error, response, body) {
 
   console.log(body);
 });
+
+```
+
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+variable_to_plot = 'Wind_speed_surface'
+
+dataset_point_url = sprintf('%sdatasets/%s/point', api_root_url, dataset_id)
+rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lon', -6.1876466940, 'var', variable_to_plot, 'count', 50)
+
+timestamps = arrayfun(@(x) x.axes.time, rest_data.entries, 'UniformOutput', false)
+timestamps_norm = datetime(timestamps, 'InputFormat', 'uuuu-MM-dd''T''HH:mm:ss','TimeZone','UTC')
+measurement_idxes = arrayfun(@(d) isfield(d.data, variable_to_plot), rest_data.entries)
+entries_data = [rest_data.entries(measurement_idxes).data]
+var_measurements = [entries_data.(variable_to_plot)]
+timestamps_plot = timestamps_norm(measurement_idxes)
+
+figure
+plot(timestamps_plot, var_measurements)
+title(variable_to_plot)
 
 ```
 
