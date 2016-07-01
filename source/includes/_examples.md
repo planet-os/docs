@@ -6,11 +6,9 @@ We've published <a href="https://github.com/planet-os/notebooks" target="_blank"
 The repository includes details on how to install Jupyter and the required Python modules, as well as tips to get you started.
 
 ## Matlab Examples
-We've published only one example so far — [point_api_example.matlab](https://github.com/planet-os/demos/blob/master/scripts/matlab/point_api_example.matlab).
-We are looking for specific problems and cases to cover. Lets collaborate!
-Please get in touch with us via our [Slack community](http://slack.planetos.com), [Twitter](https://twitter.com/planet_os) or chat form on the website.
+We've published <a href="https://github.com/planet-os/demos/blob/master/scripts/matlab/point_api_example.matlab" target="_blank" title="Matlab point API example">a point API example for Matlab</a> and are looking for additional use cases and examples. If you're a Matlab user who's interested in providing code samples utilizing the Planet OS API, let's collaborate! [Contact us for more information.](#contact-us)
 
-<a href="images/API-matlab-example1.png" data-featherlight><img src="images/API-matlab-example1.png" alt="API Matlab example"/></a>
+<a href="https://github.com/planet-os/demos/blob/master/scripts/matlab/point_api_example.matlab" target="_blank"><img src="images/API-matlab-example1.png" alt="API Matlab example"/></a>
 
 ## Point API JavaScript Wrapper
 This <a href="http://planet-os.github.io/demos/point_api/" target="_blank">interactive JavaScript demo</a> allows you to select a point on a map and uses the Planet OS API to return <a href="http://data.planetos.com/datasets/noaa_gfs_global_sflux_0.12d:gfs-global-weather-forecast-by-ncep-near-surface-parameters" target="_blank" title="GFS Global Weather Forecast on Planet OS">GFS forecast data</a> at that point.
