@@ -28,11 +28,14 @@ querystring = {"apikey":"{apikey}"}
 
 response = requests.request("GET", url, params=querystring)
 
-print(response.text)
+# response.text is raw output
+result = response.json()  # turn JSON into python data structure
+print result['Title']
 ```
 
 ```javascript
 var request = require("request");
+// npm install request
 
 var options = { method: 'GET',
   url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d',
@@ -41,8 +44,9 @@ var options = { method: 'GET',
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
-
-  console.log(body);
+  // console.log(body);
+  var result = JSON.parse(body)
+  console.log(result.Title)
 });
 
 ```
@@ -55,11 +59,6 @@ api_root_url = 'http://api.planetos.com/v1/'
 dataset_meta_url = sprintf('%sdatasets/%s', api_root_url, dataset_id)
 metadata = webread(dataset_meta_url, 'apikey', apikey)
 disp(metadata.Title)
-
-% make a list of variables containing data
-data_variables_idxes = arrayfun(@(x) x.isData, metadata.Variables)
-data_variables = metadata.Variables(data_variables_idxes)
-disp(data_variables)
 
 ```
 
@@ -226,17 +225,6 @@ variable_to_plot = 'Wind_speed_surface'
 
 dataset_point_url = sprintf('%sdatasets/%s/point', api_root_url, dataset_id)
 rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lon', -6.1876466940, 'var', variable_to_plot, 'count', 50)
-
-timestamps = arrayfun(@(x) x.axes.time, rest_data.entries, 'UniformOutput', false)
-timestamps_norm = datetime(timestamps, 'InputFormat', 'uuuu-MM-dd''T''HH:mm:ss','TimeZone','UTC')
-measurement_idxes = arrayfun(@(d) isfield(d.data, variable_to_plot), rest_data.entries)
-entries_data = [rest_data.entries(measurement_idxes).data]
-var_measurements = [entries_data.(variable_to_plot)]
-timestamps_plot = timestamps_norm(measurement_idxes)
-
-figure
-plot(timestamps_plot, var_measurements)
-title(variable_to_plot)
 
 ```
 
