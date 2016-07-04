@@ -5,6 +5,7 @@ language_tabs:
   - shell: cURL
   - python: Python
   - javascript: NodeJS
+  - matlab: Matlab
 
 toc_footers:
   - <script async defer src="http://slack.planetos.com/slackin.js?large"></script>

@@ -28,11 +28,14 @@ querystring = {"apikey":"{apikey}"}
 
 response = requests.request("GET", url, params=querystring)
 
-print(response.text)
+# response.text is raw output
+result = response.json()  # turn JSON into python data structure
+print result['Title']
 ```
 
 ```javascript
 var request = require("request");
+// npm install request
 
 var options = { method: 'GET',
   url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d',
@@ -41,9 +44,21 @@ var options = { method: 'GET',
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
-
-  console.log(body);
+  // console.log(body);
+  var result = JSON.parse(body)
+  console.log(result.Title)
 });
+
+```
+
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+
+dataset_meta_url = sprintf('%sdatasets/%s', api_root_url, dataset_id)
+metadata = webread(dataset_meta_url, 'apikey', apikey)
+disp(metadata.Title)
 
 ```
 
@@ -199,6 +214,17 @@ request(options, function (error, response, body) {
 
   console.log(body);
 });
+
+```
+
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+variable_to_plot = 'Wind_speed_surface'
+
+dataset_point_url = sprintf('%sdatasets/%s/point', api_root_url, dataset_id)
+rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lon', -6.1876466940, 'var', variable_to_plot, 'count', 50)
 
 ```
 
