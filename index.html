@@ -97,7 +97,7 @@
 
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;,&quot;matlab&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -112,6 +112,7 @@
               <a href="#" data-language-name="shell">cURL</a>
               <a href="#" data-language-name="python">Python</a>
               <a href="#" data-language-name="javascript">NodeJS</a>
+              <a href="#" data-language-name="matlab">Matlab</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -240,9 +241,12 @@
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="c"># response.text is raw output</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c"># turn JSON into python data structure</span>
+<span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">'Title'</span><span class="p">]</span>
 </code></pre>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+<span class="c1">// npm install request</span>
 
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
   <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d'</span><span class="p">,</span>
@@ -251,9 +255,19 @@
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+  <span class="c1">// console.log(body);</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">Title</span><span class="p">)</span>
 <span class="p">});</span>
+
+</code></pre>
+<pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="s1">'noaa_ww3_global_1.25x1d'</span>
+<span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
+
+<span class="n">dataset_meta_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sdatasets/%s'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">,</span> <span class="n">dataset_id</span><span class="p">)</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">dataset_meta_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">Title</span><span class="p">)</span>
 
 </code></pre>
 
@@ -406,6 +420,15 @@
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
 <span class="p">});</span>
+
+</code></pre>
+<pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="s1">'noaa_ww3_global_1.25x1d'</span>
+<span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
+<span class="n">variable_to_plot</span> <span class="o">=</span> <span class="s1">'Wind_speed_surface'</span>
+
+<span class="n">dataset_point_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sdatasets/%s/point'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">,</span> <span class="n">dataset_id</span><span class="p">)</span>
+<span class="n">rest_data</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">dataset_point_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">,</span><span class="s1">'lat'</span><span class="p">,</span> <span class="mf">35.9073926681</span><span class="p">,</span><span class="s1">'lon'</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.1876466940</span><span class="p">,</span> <span class="s1">'var'</span><span class="p">,</span> <span class="n">variable_to_plot</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 
 </code></pre>
 
@@ -778,6 +801,12 @@ If the user enters his personal API key into an appropriate query field, API Con
 
 <p>The repository includes details on how to install Jupyter and the required Python modules, as well as tips to get you started.</p>
 
+<h2 id="matlab-examples">Matlab Examples</h2>
+
+<p>We&rsquo;ve published <a href="https://github.com/planet-os/demos/blob/master/scripts/matlab/point_api_example.matlab" target="_blank" title="Matlab point API example">a point API example for Matlab</a> and are looking for additional use cases and examples. If you&rsquo;re a Matlab user who&rsquo;s interested in providing code samples utilizing the Planet OS API, let&rsquo;s collaborate! <a href="#contact-us">Contact us for more information.</a></p>
+
+<p><a href="https://github.com/planet-os/demos/blob/master/scripts/matlab/point_api_example.matlab" target="_blank"><img src="images/API-matlab-example1.png" alt="API Matlab example"/></a></p>
+
 <h2 id="point-api-javascript-wrapper">Point API JavaScript Wrapper</h2>
 
 <p>This <a href="http://planet-os.github.io/demos/point_api/" target="_blank">interactive JavaScript demo</a> allows you to select a point on a map and uses the Planet OS API to return <a href="http://data.planetos.com/datasets/noaa_gfs_global_sflux_0.12d:gfs-global-weather-forecast-by-ncep-near-surface-parameters" target="_blank" title="GFS Global Weather Forecast on Planet OS">GFS forecast data</a> at that point.</p>
@@ -813,6 +842,7 @@ If the user enters his personal API key into an appropriate query field, API Con
                 <a href="#" data-language-name="shell">cURL</a>
                 <a href="#" data-language-name="python">Python</a>
                 <a href="#" data-language-name="javascript">NodeJS</a>
+                <a href="#" data-language-name="matlab">Matlab</a>
           </div>
       </div>
     </div>
