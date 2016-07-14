@@ -536,18 +536,22 @@ request(options, function (error, response, body) {
     </tbody>
 </table>
 
-## Time-series API Endpoints
-Since time-series data has different spatial distribution aspect comparing to model or reanalysis data, it requires different access workflow. There is an API endpoint that lists station IDs by location. Station IDs can be used to query data originated from each of these stations.
+## Station-based API Endpoints
+
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+Since in-situ (station-based) data has different spatial distribution aspect comparing to model or reanalysis data, it requires different access workflow. There is an API endpoint that lists station IDs with their locations. Station IDs can be used to query data originated from each of these stations.
 
 ```shell
 curl --request GET \
-  --url 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations?apikey={apikey}'
+  --url 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations?apikey={apikey}'
 ```
 
 ```python
 import requests
 
-url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations"
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations"
 
 querystring = {"apikey":"{apikey}"}
 
@@ -560,7 +564,7 @@ print(response.text)
 var request = require("request");
 
 var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/stations',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations',
   qs: { apikey: '{apikey}' },
 };
 
@@ -576,6 +580,7 @@ request(options, function (error, response, body) {
 
 ```json
 {
+  "station": {
     "45017": {
       "TemporalExtentStart": "2011-08-08T21:00:00",
       "TemporalExtentEnd": "2011-09-05T02:00:00",
@@ -616,25 +621,27 @@ request(options, function (error, response, body) {
         "coordinates": [-77.0, 39.0]
       }
     }
+  }
 }
 ```
 
 #### HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}/stations`
 
-Returns JSON object where keys are station IDs and every item (key) has attributes to indicate spatial and temporal bounds of time-series data originated from a station.
+Returns JSON object where every key inside `station` structure is station identifier.
+Station attributes like `TemporalExtentStart`, `TemporalExtentEnd`, `SpatialExtent` indicating spatial and temporal bounds of time-series data originated from the station.
 
 ```shell
 export STATION_ID=keca2
 curl --request GET \
-  --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/$STATION_ID?apikey={apikey}
+  --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/$STATION_ID?apikey={apikey}
 ```
 
 ```python
 import requests
 station_id = 'keca2'
 
-url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/%s" % (station_id)
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/%s" % (station_id)
 
 querystring = {"apikey":"{apikey}"}
 
@@ -648,7 +655,7 @@ var request = require("request");
 var station_id = 'keca2';
 
 var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet/' + station_id,
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/' + station_id,
   qs: { apikey: '{apikey}' },
 };
 
@@ -698,9 +705,9 @@ request(options, function (error, response, body) {
 ```
 
 #### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/{station_id}`
+`GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}`
 
-Returns time-series data in similar to Point Data API output format.
+Returns time-series data in similar to [Point Data API](#point-data-endpoint) output format.
 
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
