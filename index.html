@@ -224,7 +224,9 @@
 
 <p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}</code></p>
 
-<h2 id="metadata-summary-endpoint">Metadata Summary Endpoint</h2>
+<h2 id="dataset-endpoints">Dataset Endpoints</h2>
+
+<h3 id="datasets-id">/datasets/{id}</h3>
 
 <blockquote>
 <p>Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
@@ -340,11 +342,13 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h3 id="http-request">HTTP Request</h3>
+<p>Get dataset metadata.</p>
 
-<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}</code></p>
+<h4 id="http-request">HTTP REQUEST</h4>
 
-<p>This API endpoint serves our dataset detail page and matches details described in <a href="#summary">Dataset Summary</a> section above.</p>
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}</code></p>
+
+<h4 id="response">RESPONSE</h4>
 
 <p><strong>Title</strong>: The title or name of the dataset.</p>
 
@@ -392,9 +396,7 @@
 
 <p><strong>VerticalExtent</strong>: Vertical extent description as text</p>
 
-<h2 id="point-data-endpoint">Point Data Endpoint</h2>
-
-<p>Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.</p>
+<h3 id="datasets-id-point">/datasets/{id}/point</h3>
 <pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point?lon=-50.5&amp;lat=49.5&amp;apikey={apikey}'</span>
 </code></pre>
@@ -480,11 +482,13 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h4 id="http-request">HTTP Request</h4>
+<p>Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.</p>
 
-<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/point?lon=&amp;lat=</code></p>
+<h4 id="http-request">HTTP REQUEST</h4>
 
-<h4 id="http-query-parameters">HTTP Query Parameters</h4>
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/point?apikey={apikey}</code></p>
+
+<h4 id="http-query-parameters">HTTP QUERY PARAMETERS</h4>
 
 <table class="ui very basic padded table api-parameters">
     <tbody>
@@ -766,6 +770,184 @@
         </tr>
     </tbody>
 </table>
+
+<h3 id="datasets-id-stations">/datasets/{id}/stations</h3>
+
+<blockquote>
+<p>Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations?apikey={apikey}'</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"station"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"45017"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"TemporalExtentStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-08-08T21:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"TemporalExtentEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-05T02:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialExtent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-88.0</span><span class="p">,</span><span class="w"> </span><span class="mf">42.0</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"46252"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"TemporalExtentStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-10-01T20:35:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"TemporalExtentEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-12-03T17:05:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialExtent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-119.0</span><span class="p">,</span><span class="w"> </span><span class="mf">34.0</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"42390"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"TemporalExtentStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-01T00:30:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"TemporalExtentEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-20T22:30:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialExtent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-95.0</span><span class="p">,</span><span class="w"> </span><span class="mf">26.0</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"keca2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"TemporalExtentStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2009-05-06T19:12:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"TemporalExtentEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-20T23:12:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialExtent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-132.0</span><span class="p">,</span><span class="w"> </span><span class="mf">55.0</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"bltm2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"TemporalExtentStart"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-01-07T01:48:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"TemporalExtentEnd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-20T18:54:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialExtent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-77.0</span><span class="p">,</span><span class="w"> </span><span class="mf">39.0</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Get the list of stations within a dataset. <em>Note that not all datasets contain stations.</em></p>
+
+<h4 id="http-request">HTTP REQUEST</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/stations?apikey={apikey}</code></p>
+
+<h4 id="response">RESPONSE</h4>
+
+<p>A JSON object where every key inside <code class="prettyprint">station</code> structure is station identifier.</p>
+
+<p>Station attributes like <code class="prettyprint">TemporalExtentStart</code>, <code class="prettyprint">TemporalExtentEnd</code>, <code class="prettyprint">SpatialExtent</code> indicating spatial and temporal bounds of time-series data originated from the station.</p>
+
+<h3 id="datasets-id-stations-station_id">/datasets/{id}/stations/{station_id}</h3>
+<pre class="highlight shell"><code><span class="nb">export </span><span class="nv">STATION_ID</span><span class="o">=</span>keca2
+curl --request GET <span class="se">\</span>
+  --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/<span class="nv">$STATION_ID</span>?apikey<span class="o">={</span>apikey<span class="o">}</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">station_id</span> <span class="o">=</span> <span class="s">'keca2'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">station_id</span><span class="p">)</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">station_id</span> <span class="o">=</span> <span class="s1">'keca2'</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/'</span> <span class="o">+</span> <span class="nx">station_id</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"stats"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"time_latitude_longitude"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"classifiers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"station"</span><span class="p">:</span><span class="w"> </span><span class="s2">"keca2"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"axes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-01-01T00:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-131.625</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">55.33100128173828</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"wave_height"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sea_surface_temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.599999904632568</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gust"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.400000095367432</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"wind_spd"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"water_level"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"dewpt_temperature"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"air_temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">7.199999809265137</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"air_pressure"</span><span class="p">:</span><span class="w"> </span><span class="mf">1020.2999877929688</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"wind_dir"</span><span class="p">:</span><span class="w"> </span><span class="mf">112.0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"average_wpd"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"visibility"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"dominant_wpd"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mean_wave_dir"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Get values for a station. <em>Note that not all datasets contain stations.</em></p>
+
+<h4 id="http-request">HTTP Request</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}?apikey={apikey}</code></p>
+
+<h4 id="http-query-parameters">HTTP Query Parameters</h4>
+
+<p>Accepts the same query parameters as the <a href="#point-endpoint">Point Endpoint</a>.</p>
+
+<h4 id="response">Response</h4>
+
+<p>Response format is similar to the <a href="#point-endpoint">Point Endpoint</a>.</p>
 
 <h2 id="api-console">API Console</h2>
 
