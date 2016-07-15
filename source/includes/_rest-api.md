@@ -10,7 +10,10 @@ Your API Key is:
 ### Example of an Authenticated HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
 
-## Metadata Summary Endpoint 
+## Dataset Endpoints
+
+### /datasets/{id}
+
 > Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
 
@@ -115,10 +118,13 @@ request(options, function (error, response, body) {
   ]
 }
 ```
-### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}`
 
-This API endpoint serves our dataset detail page and matches details described in [Dataset Summary](#summary) section above.
+Get dataset metadata.
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
+
+#### RESPONSE
 
 __Title__: The title or name of the dataset.
 
@@ -166,8 +172,7 @@ __Variables__: List of variables
 
 __VerticalExtent__: Vertical extent description as text
 
-## Point Data Endpoint
-Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
+### /datasets/{id}/point
 
 ```shell
 curl --request GET \
@@ -250,10 +255,12 @@ request(options, function (error, response, body) {
 }
 ```
 
-#### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/point?lon=&lat=`
+Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
 
-#### HTTP Query Parameters
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/point?apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
 
 <table class="ui very basic padded table api-parameters">
     <tbody>
@@ -536,12 +543,10 @@ request(options, function (error, response, body) {
     </tbody>
 </table>
 
-## Station-based API Endpoints
+### /datasets/{id}/stations
 
 > Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
-
-Since in-situ (station-based) data has different spatial distribution aspect comparing to model or reanalysis data, it requires different access workflow. There is an API endpoint that lists station IDs with their locations. Station IDs can be used to query data originated from each of these stations.
 
 ```shell
 curl --request GET \
@@ -624,12 +629,18 @@ request(options, function (error, response, body) {
   }
 }
 ```
+Get the list of stations within a dataset. _Note that not all datasets contain stations._
 
-#### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/stations`
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/stations?apikey={apikey}`
 
-Returns JSON object where every key inside `station` structure is station identifier.
+#### RESPONSE
+
+A JSON object where every key inside `station` structure is station identifier.
+
 Station attributes like `TemporalExtentStart`, `TemporalExtentEnd`, `SpatialExtent` indicating spatial and temporal bounds of time-series data originated from the station.
+
+### /datasets/{id}/stations/{station_id}
 
 ```shell
 export STATION_ID=keca2
@@ -704,10 +715,16 @@ request(options, function (error, response, body) {
 }
 ```
 
-#### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}`
+Get values for a station. _Note that not all datasets contain stations._
 
-Returns time-series data in similar to [Point Data API](#point-data-endpoint) output format.
+#### HTTP Request
+`GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}?apikey={apikey}`
+
+#### HTTP Query Parameters
+Accepts the same query parameters as the [Point Endpoint](#point-endpoint).
+
+#### Response
+Response format is similar to the [Point Endpoint](#point-endpoint).
 
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
