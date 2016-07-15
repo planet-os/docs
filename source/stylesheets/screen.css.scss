@@ -198,6 +198,12 @@ html, body {
       padding-left: $nav-padding + $nav-indent;
       font-size: 12px;
     }
+    .tocify-subheader {
+      .tocify-item>a {
+        padding-left: $nav-padding + $nav-indent * 2;
+        font-size: 12px;
+      }
+    }
 
     // for embossed look:
     @include embossed-bg;
@@ -535,7 +541,7 @@ html, body {
     background-color: $code-bg;
     color: #fff;
 
-    padding: 2em $main-padding;
+    padding: 0;
     margin: 0;
     width: $examples-width;
 
@@ -557,14 +563,15 @@ html, body {
   }
 
   pre {
+    padding: 2em $main-padding;
     @extend %code-font;
   }
 
   blockquote {
     &>p {
       background-color: $code-annotation-bg;
-      border-radius: 5px;
-      padding: $code-annotation-padding;
+      border-radius: none;
+      padding: $code-annotation-padding $main-padding;
       color: #ccc;
       border-top: 1px solid #000;
       border-bottom: 1px solid #404040;

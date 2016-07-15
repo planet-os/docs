@@ -10,7 +10,10 @@ Your API Key is:
 ### Example of an Authenticated HTTP Request
 `GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
 
-## Metadata Summary Endpoint 
+## Dataset Endpoints
+
+### /datasets/{id}
+
 > Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
 
@@ -130,10 +133,13 @@ disp(metadata.Title)
   ]
 }
 ```
-### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}`
 
-This API endpoint serves our dataset detail page and matches details described in [Dataset Summary](#summary) section above.
+Get dataset metadata.
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
+
+#### RESPONSE
 
 __Title__: The title or name of the dataset.
 
@@ -181,8 +187,7 @@ __Variables__: List of variables
 
 __VerticalExtent__: Vertical extent description as text
 
-## Point Data Endpoint
-Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
+### /datasets/{id}/point
 
 ```shell
 curl --request GET \
@@ -276,10 +281,12 @@ rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lo
 }
 ```
 
-#### HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}/point?lon=&lat=`
+Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
 
-#### HTTP Query Parameters
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/point?apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
 
 <table class="ui very basic padded table api-parameters">
     <tbody>
@@ -561,6 +568,189 @@ rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lo
         </tr>
     </tbody>
 </table>
+
+### /datasets/{id}/stations
+
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "station": {
+    "45017": {
+      "TemporalExtentStart": "2011-08-08T21:00:00",
+      "TemporalExtentEnd": "2011-09-05T02:00:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-88.0, 42.0]
+      }
+    },
+    "46252": {
+      "TemporalExtentStart": "2014-10-01T20:35:00",
+      "TemporalExtentEnd": "2015-12-03T17:05:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-119.0, 34.0]
+      }
+    },
+    "42390": {
+      "TemporalExtentStart": "2012-10-01T00:30:00",
+      "TemporalExtentEnd": "2016-06-20T22:30:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-95.0, 26.0]
+      }
+    },
+    "keca2": {
+      "TemporalExtentStart": "2009-05-06T19:12:00",
+      "TemporalExtentEnd": "2016-06-20T23:12:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-132.0, 55.0]
+      }
+    },
+    "bltm2": {
+      "TemporalExtentStart": "2005-01-07T01:48:00",
+      "TemporalExtentEnd": "2016-06-20T18:54:00",
+      "SpatialExtent": {
+        "type": "Point",
+        "coordinates": [-77.0, 39.0]
+      }
+    }
+  }
+}
+```
+Get the list of stations within a dataset. _Note that not all datasets contain stations._
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/stations?apikey={apikey}`
+
+#### RESPONSE
+
+A JSON object where every key inside `station` structure is station identifier.
+
+Station attributes like `TemporalExtentStart`, `TemporalExtentEnd`, `SpatialExtent` indicating spatial and temporal bounds of time-series data originated from the station.
+
+### /datasets/{id}/stations/{station_id}
+
+```shell
+export STATION_ID=keca2
+curl --request GET \
+  --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/$STATION_ID?apikey={apikey}
+```
+
+```python
+import requests
+station_id = 'keca2'
+
+url = "http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/%s" % (station_id)
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+var station_id = 'keca2';
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/' + station_id,
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "stats": {
+    "offset": 0,
+    "count": 1
+  },
+  "entries": [{
+    "context": "time_latitude_longitude",
+    "classifiers": {
+      "station": "keca2"
+    },
+    "axes": {
+      "time": "2014-01-01T00:00:00",
+      "longitude": -131.625,
+      "latitude": 55.33100128173828
+    },
+    "data": {
+      "wave_height": null,
+      "sea_surface_temperature": 6.599999904632568,
+      "gust": 4.400000095367432,
+      "wind_spd": 2.0,
+      "water_level": null,
+      "dewpt_temperature": null,
+      "air_temperature": 7.199999809265137,
+      "air_pressure": 1020.2999877929688,
+      "wind_dir": 112.0,
+      "average_wpd": null,
+      "visibility": null,
+      "dominant_wpd": null,
+      "mean_wave_dir": null
+    }
+  }]
+}
+```
+
+Get values for a station. _Note that not all datasets contain stations._
+
+#### HTTP Request
+`GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}?apikey={apikey}`
+
+#### HTTP Query Parameters
+Accepts the same query parameters as the [Point Endpoint](#point-endpoint).
+
+#### Response
+Response format is similar to the [Point Endpoint](#point-endpoint).
 
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
