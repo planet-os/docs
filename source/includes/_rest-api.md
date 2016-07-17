@@ -19,13 +19,13 @@ Your API Key is:
 
 ```shell
 curl --request GET \
-  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d?apikey={apikey}'
+  --url 'http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d?apikey={apikey}'
 ```
 
 ```python
 import requests
 
-url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d"
+url = "http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d"
 
 querystring = {"apikey":"{apikey}"}
 
@@ -41,7 +41,7 @@ var request = require("request");
 // npm install request
 
 var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d',
+  url: 'http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d',
   qs: { apikey: '{apikey}' },
 };
 
@@ -56,7 +56,7 @@ request(options, function (error, response, body) {
 
 ```matlab
 apikey = '{apikey}'
-dataset_id = 'noaa_ww3_global_1.25x1d'
+dataset_id = 'hycom_glbu0.08_91.2_global_0.08d'
 api_root_url = 'http://api.planetos.com/v1/'
 
 dataset_meta_url = sprintf('%sdatasets/%s', api_root_url, dataset_id)
@@ -233,7 +233,7 @@ rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lo
 
 ```
 
-> The above command returns JSON structured like this:
+> The above command (DB `noaa_ww3_global_1.25x1d`) returns JSON structure like this:
 
 ```json
 {
