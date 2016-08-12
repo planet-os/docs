@@ -14,7 +14,7 @@ Your API Key is:
 
 ### /datasets/{id}
 
-> Make sure to replace `{apikey}` with your own API key:<br/>
+> Request metadata for the [`hycom_glbu0.08_91.2_global_0.08d`](http://data.planetos.com/datasets/hycom_glbu0.08_91.2_global_0.08d:hycom-hybrid-coordinate-ocean-model-global-ocean-forecast) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
 
 ```shell
@@ -189,6 +189,9 @@ __VerticalExtent__: Vertical extent description as text
 
 ### /datasets/{id}/point
 
+> Request values from the [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset at a specific point coordinate. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
 ```shell
 curl --request GET \
   --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point?lon=-50.5&lat=49.5&apikey={apikey}'
@@ -199,7 +202,7 @@ import requests
 
 url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point"
 
-querystring = {"lon":"-50.5","lat":"49.5","apikey":"{apikey}"}
+querystring = {"lon":"-50","lat":"50","apikey":"{apikey}"}
 
 response = requests.request("GET", url, params=querystring)
 
@@ -211,7 +214,7 @@ var request = require("request");
 
 var options = { method: 'GET',
   url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point',
-  qs: { lon: '-50.5', lat: '49.5', apikey: '{apikey}' },
+  qs: { lon: '-50', lat: '50', apikey: '{apikey}' },
 };
 
 request(options, function (error, response, body) {
@@ -226,14 +229,13 @@ request(options, function (error, response, body) {
 apikey = '{apikey}'
 dataset_id = 'noaa_ww3_global_1.25x1d'
 api_root_url = 'http://api.planetos.com/v1/'
-variable_to_plot = 'Wind_speed_surface'
 
 dataset_point_url = sprintf('%sdatasets/%s/point', api_root_url, dataset_id)
-rest_data = webread(dataset_point_url, 'apikey', apikey,'lat', 35.9073926681,'lon', -6.1876466940, 'var', variable_to_plot, 'count', 50)
+rest_data = webread(dataset_point_url, 'apikey', apikey, 'lon', -50, 'lat', 50)
 
 ```
 
-> The above command (DB `noaa_ww3_global_1.25x1d`) returns JSON structure like this:
+> The above command returns JSON structured like this:
 
 ```json
 {
@@ -571,7 +573,7 @@ Provides values for the specified dataset at a given point of interest. Points a
 
 ### /datasets/{id}/stations
 
-> Make sure to replace `{apikey}` with your own API key:<br/>
+> Request stations within the [`noaa_ndbc_stdmet_stations`](http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
 > <code class="apikey-placeholder"></code>
 
 ```shell
@@ -667,6 +669,9 @@ A JSON object where every key inside `station` structure is station identifier.
 Station attributes like `TemporalExtentStart`, `TemporalExtentEnd`, `SpatialExtent` indicating spatial and temporal bounds of time-series data originated from the station.
 
 ### /datasets/{id}/stations/{station_id}
+
+> Request values from station `keca2` within the [`noaa_ndbc_stdmet_stations`](http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
 
 ```shell
 export STATION_ID=keca2
