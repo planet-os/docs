@@ -429,8 +429,8 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">Return values at or after this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
-                    <div class="item example">2016-04-05T14:30Z</div>
+                    <div class="item description">Sets a lower time boundary for dataset values. Return values at or after this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item example">2016-04-05T14:30:00Z</div>
                 </div>
             </td>
         </tr>
@@ -443,7 +443,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
+                    <div class="item description">Sets an upper time boundary for dataset values. Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
                     <div class="item example">2016-04-11T15:30:00Z</div>
                 </div>
             </td>
