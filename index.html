@@ -106,7 +106,9 @@
     </a>
     <div class="tocify-wrapper">
       <div class="logo-wrapper">
+      <a href="https://planetos.com/">
         <img src="http://data.planetos.com/userland/img/planetos-logo.svg" />
+      </a>
       </div>
         <div class="lang-selector">
               <a href="#" data-language-name="shell">cURL</a>
@@ -229,15 +231,15 @@
 <h3 id="datasets-id">/datasets/{id}</h3>
 
 <blockquote>
-<p>Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<p>Request metadata for the <a href="http://data.planetos.com/datasets/hycom_glbu0.08_91.2_global_0.08d:hycom-hybrid-coordinate-ocean-model-global-ocean-forecast"><code class="prettyprint">hycom_glbu0.08_91.2_global_0.08d</code></a> dataset. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
 <code class="apikey-placeholder"></code></p>
 </blockquote>
 <pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
-  --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d?apikey={apikey}'</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d?apikey={apikey}'</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d"</span>
 
 <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
 
@@ -251,7 +253,7 @@
 <span class="c1">// npm install request</span>
 
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/hycom_glbu0.08_91.2_global_0.08d'</span><span class="p">,</span>
   <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
 <span class="p">};</span>
 
@@ -264,7 +266,7 @@
 
 </code></pre>
 <pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
-<span class="n">dataset_id</span> <span class="o">=</span> <span class="s1">'noaa_ww3_global_1.25x1d'</span>
+<span class="n">dataset_id</span> <span class="o">=</span> <span class="s1">'hycom_glbu0.08_91.2_global_0.08d'</span>
 <span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
 
 <span class="n">dataset_meta_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sdatasets/%s'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">,</span> <span class="n">dataset_id</span><span class="p">)</span>
@@ -397,6 +399,11 @@
 <p><strong>VerticalExtent</strong>: Vertical extent description as text</p>
 
 <h3 id="datasets-id-point">/datasets/{id}/point</h3>
+
+<blockquote>
+<p>Request values from the <a href="http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model"><code class="prettyprint">noaa_ww3_global_1.25x1d</code></a> dataset at a specific point coordinate. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
 <pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point?lon=-50.5&amp;lat=49.5&amp;apikey={apikey}'</span>
 </code></pre>
@@ -404,7 +411,7 @@
 
 <span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point"</span>
 
-<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"lon"</span><span class="p">:</span><span class="s">"-50.5"</span><span class="p">,</span><span class="s">"lat"</span><span class="p">:</span><span class="s">"49.5"</span><span class="p">,</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"lon"</span><span class="p">:</span><span class="s">"-50"</span><span class="p">,</span><span class="s">"lat"</span><span class="p">:</span><span class="s">"50"</span><span class="p">,</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
 
@@ -414,7 +421,7 @@
 
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
   <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/point'</span><span class="p">,</span>
-  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">lon</span><span class="p">:</span> <span class="s1">'-50.5'</span><span class="p">,</span> <span class="na">lat</span><span class="p">:</span> <span class="s1">'49.5'</span><span class="p">,</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">lon</span><span class="p">:</span> <span class="s1">'-50'</span><span class="p">,</span> <span class="na">lat</span><span class="p">:</span> <span class="s1">'50'</span><span class="p">,</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
 <span class="p">};</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
@@ -427,10 +434,9 @@
 <pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
 <span class="n">dataset_id</span> <span class="o">=</span> <span class="s1">'noaa_ww3_global_1.25x1d'</span>
 <span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
-<span class="n">variable_to_plot</span> <span class="o">=</span> <span class="s1">'Wind_speed_surface'</span>
 
 <span class="n">dataset_point_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sdatasets/%s/point'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">,</span> <span class="n">dataset_id</span><span class="p">)</span>
-<span class="n">rest_data</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">dataset_point_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">,</span><span class="s1">'lat'</span><span class="p">,</span> <span class="mf">35.9073926681</span><span class="p">,</span><span class="s1">'lon'</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.1876466940</span><span class="p">,</span> <span class="s1">'var'</span><span class="p">,</span> <span class="n">variable_to_plot</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">rest_data</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">dataset_point_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">,</span> <span class="s1">'lon'</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="s1">'lat'</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 
 </code></pre>
 
@@ -774,7 +780,7 @@
 <h3 id="datasets-id-stations">/datasets/{id}/stations</h3>
 
 <blockquote>
-<p>Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<p>Request stations within the <a href="http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data"><code class="prettyprint">noaa_ndbc_stdmet_stations</code></a> dataset. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
 <code class="apikey-placeholder"></code></p>
 </blockquote>
 <pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
@@ -867,6 +873,11 @@
 <p>Station attributes like <code class="prettyprint">TemporalExtentStart</code>, <code class="prettyprint">TemporalExtentEnd</code>, <code class="prettyprint">SpatialExtent</code> indicating spatial and temporal bounds of time-series data originated from the station.</p>
 
 <h3 id="datasets-id-stations-station_id">/datasets/{id}/stations/{station_id}</h3>
+
+<blockquote>
+<p>Request values from station <code class="prettyprint">keca2</code> within the <a href="http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data"><code class="prettyprint">noaa_ndbc_stdmet_stations</code></a> dataset. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
 <pre class="highlight shell"><code><span class="nb">export </span><span class="nv">STATION_ID</span><span class="o">=</span>keca2
 curl --request GET <span class="se">\</span>
   --url http://api.planetos.com/v1/datasets/noaa_ndbc_stdmet_stations/stations/<span class="nv">$STATION_ID</span>?apikey<span class="o">={</span>apikey<span class="o">}</span>
