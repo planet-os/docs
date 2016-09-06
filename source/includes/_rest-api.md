@@ -8,9 +8,123 @@ Your API Key is:
 <strong class="apikey-placeholder"><a href="http://data.planetos.com/plans" title="Sign up for a Planet OS account" target="_blank">Create an account to receive an API Key</a></strong>
 
 ### Example of an Authenticated HTTP Request
-`GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}`
+`GET http://api.planetos.com/v1/datasets?apikey={apikey}`
 
 ## Dataset Endpoints
+
+<h3 id="dataset-list">/datasets</h3>
+
+> Request a list of all dataset IDs available in the system. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+# response.text is raw output
+result = response.json()  # turn JSON into python data structure
+print result
+```
+
+```javascript
+var request = require("request");
+// npm install request
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+  // console.log(body);
+  var result = JSON.parse(body)
+  console.log(result)
+});
+
+```
+
+```matlab
+apikey = '{apikey}'
+api_root_url = 'http://api.planetos.com/v1/'
+
+dataset_meta_url = sprintf('%sdatasets', api_root_url)
+list_of_ds_ids = webread(dataset_meta_url, 'apikey', apikey)
+disp(list_of_ds_ids)
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  "nasa_grctellus_ocean",
+  "nasa_gldas_lwc_monthly",
+  "noaa_ndbc_swden_stations",
+  "myocean_sst_europe_daily",
+  "nasa_ghrsst_global_daily",
+  "noaa_ww3_ak",
+  "noaa_nam_hawaii",
+  "nasa_3imerghhl",
+  "socib_forecast_western_mediterranean_daily",
+  "metoffice_glosea5_global_daily",
+  "nasa_3imerghhe",
+  "noaa_ndbc_adcp_station",
+  "rss_ccmp_winds_v2",
+  "cmems_gwind",
+  "noaa_ww3_nah",
+  "noaa_nam_ca",
+  "nasa_grctellus_land",
+  "noaa_etopo_global_1arcmin",
+  "noaa_icoads_enhanced_1d_day",
+  "myocean_sst_baltic_daily",
+  "noaa_gfs_global_sflux_0.12d",
+  "noaa_blended_sea_winds_6hr_global_0.25d",
+  "noaa_ww3_global_1.25x1d",
+  "noaa_ww3_wc",
+  "noaa_ww3_ao",
+  "noaa_nam_prico",
+  "noaa-ncep_gefs",
+  "noaa_ww3_nph",
+  "noaa_ndbc_stdmet_stations",
+  "bom_access-g_global_40km",
+  "noaa_nam_alaska",
+  "noaa_nam_north_pacific",
+  "copernicus_biogeo_baltic_hourly",
+  "noaa_nam_awips_phys",
+  "nasa_oscar_global_5day",
+  "copernicus_goba_global_weekly",
+  "noaa_ww3_at",
+  "nasa_3imerghh",
+  "pacioos_swan_oahu",
+  "noaa_ww3_hurricane_ep",
+  "noaa_ww3_hurricane_at",
+  "noaa_ndbc_cwind_stations",
+  "noaa_ww3_ep",
+  "noaa_ww3_hurricane_ak",
+  "noaa_ww3_hurricane_wc",
+  "hycom_glbu0.08_91.2_global_0.08d",
+  "noaa_nam_awips_12"
+]
+```
+
+Get list of all dataset IDs.
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets?apikey={apikey}`
+
+#### RESPONSE
+A flat list where each item is a plain text dataset ID.
 
 ### /datasets/{id}
 
