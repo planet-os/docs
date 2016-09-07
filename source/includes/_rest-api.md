@@ -871,6 +871,46 @@ Accepts the same query parameters as the [Point Endpoint](#point-endpoint).
 #### Response
 Response format is similar to the [Point Endpoint](#point-endpoint).
 
+## API output format
+
+### API entry
+
+Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
+
+```json
+{
+  "stats": {
+    "timeMin": "2016-09-06T18:00:00",
+    "count": 1,
+    "offset": 0,
+    "nextOffset": 1,
+    "timeMax": "2016-09-22T18:00:00"
+  },
+  "entries": [{
+    "context": "reftime_time_hybrid_lat_lon",
+    "axes": {
+      "latitude": 49.495601654052734,
+      "reftime": "2016-09-06T18:00:00",
+      "longitude": -50.507659912109375,
+      "time": "2016-09-06T18:00:00",
+      "z": 1.0
+    },
+    "data": {
+      "Temperature_hybrid": 286.1189880371094
+    }
+  }]
+}
+```
+
+Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
+
+Root entries are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
+Entries section is a list of data samples selected by API query. In the example above we use default `count` setting which is `1`. So we have a single entry.
+Every entry has assigned XYZ and two timestamp coordinates as a part of `axes` object. It is easy to notice that Reftime is always same as Time for observational datasets, unlike GFS in our example, which is forecast.
+So Reftime coordinate is only useful for forecasts and some modelled datasets, where timestamp of dataset entry creation is different from the timestamp that dataset entry is describing.
+Data section of every entry may contain more than one variable. It is possible to query all variables from any dataset by just omitting `var` parameter.
+Please take into account that variables are grouped by `context`. See more details about Contexts in a next section.
+
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
 It has short descriptions of query parameters and output JSON schema.
