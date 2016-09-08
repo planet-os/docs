@@ -875,8 +875,6 @@ Response format is similar to the [Point Endpoint](#point-endpoint).
 
 ### API entry
 
-Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
-
 ```json
 {
   "stats": {
@@ -905,11 +903,81 @@ Let's start with an API output example for the GFS forecast by taking one variab
 Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
 
 Root entries are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
+
 Entries section is a list of data samples selected by API query. In the example above we use default `count` setting which is `1`. So we have a single entry.
-Every entry has assigned XYZ and two timestamp coordinates as a part of `axes` object. It is easy to notice that Reftime is always same as Time for observational datasets, unlike GFS in our example, which is forecast.
-So Reftime coordinate is only useful for forecasts and some modelled datasets, where timestamp of dataset entry creation is different from the timestamp that dataset entry is describing.
+
+Every entry has assigned XY, optionally Z and two timestamp coordinates as a part of `axes` object.
+It is easy to notice that `reftime` is always same as `time` for observational datasets, unlike GFS in our example, which is forecast.
+
+So `reftime` dimension is only useful for forecasts and some modelled datasets, where timestamp of dataset entry creation is different from the timestamp that dataset entry is describing.
+
 Data section of every entry may contain more than one variable. It is possible to query all variables from any dataset by just omitting `var` parameter.
-Please take into account that variables are grouped by `context`. See more details about Contexts in a next section.
+Please take into account that variables are grouped by `context`. For more details about Contexts see the next section.
+
+### API Entry Context
+
+```javascript
+{
+    "context": "reftime_time_hybrid_lat_lon",
+    "axes": {
+      "latitude": 49.495601654052734,
+      "reftime": "2016-09-07T12:00:00",
+      "longitude": -50.507659912109375,
+      "time": "2016-09-07T12:00:00",
+      "z": 1.0
+    },
+    "data": {
+      "u-component_of_wind_hybrid": 6.039999961853027,
+      "v-component_of_wind_hybrid": 0.5799999833106995
+      "Temperature_hybrid": 286.8609924316406,
+    }
+}
+
+{
+    "context": "reftime_time_lat_lon",
+    "axes": {
+      "reftime": "2016-09-07T12:00:00",
+      "time": "2016-09-07T12:00:00",
+      "longitude": -50.507659912109375,
+      "latitude": 49.495601654052734
+    },
+    "data": {
+      "Total_cloud_cover_convective_cloud": 0.0,
+      "Downward_Short-Wave_Radiation_Flux_surface": 296.0,
+      "Planetary_Boundary_Layer_Height_surface": 36.0,
+      "Aerodynamic_conductance_surface": 0.0031999999191612005,
+      "Temperature_surface": 282.31201171875,
+      "Pressure_surface": 101690.0,
+      "Upward_Short-Wave_Radiation_Flux_surface": 18.0,
+      "Latent_heat_net_flux_surface": -25.0,
+      "Geopotential_height_surface": -0.004031249787658453,
+      "Upward_Long-Wave_Radp_Flux_surface": 349.0,
+      "Exchange_Coefficient_surface": 0.004100000020116568,
+      "Sensible_heat_net_flux_surface": -20.0,
+      "Frictional_Velocity_surface": 0.14000000059604645,
+      "Downward_Long-Wave_Radp_Flux_surface": 347.0,
+      "Precipitable_water_entire_atmosphere_single_layer": 26.899999618530273
+    }
+  }
+```
+
+Contexts are simply variable groups. Variables that share the same set of dimensions belong to a single shared context.
+Contexts are machine-generated, so it’s not always easy to understand what particular context contains by just looking at its id.
+
+```json
+{
+    "context": "reftime_time_lat_lon",
+    "axes": {
+      "reftime": "2016-09-07T12:00:00",
+      "time": "2016-09-07T12:00:00",
+      "longitude": -50.507659912109375,
+      "latitude": 49.495601654052734
+    }
+}
+```
+
+Most common context is LonLat + Z + time + reftime. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
+In this cases, variable with Z dimension in Pascals will have a different context than variable with Z dimension in meters.
 
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
