@@ -501,7 +501,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#api-entry-context">Context section</a>.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -561,6 +561,21 @@ Provides values for the specified dataset at a given point of interest. Points a
                 <div class="ui list">
                     <div class="item description">Sets an upper time boundary for dataset values. Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
                     <div class="item example">2016-04-11T15:30:00Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">time_order</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">asc</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Orders samples in the API output by "time" dimension.</div>
+                    <div class="item example">desc</div>
                 </div>
             </td>
         </tr>
@@ -913,6 +928,10 @@ So `reftime` dimension is only useful for forecasts and some modelled datasets, 
 
 Data section of every entry may contain more than one variable. It is possible to query all variables from any dataset by just omitting `var` parameter.
 Please take into account that variables are grouped by `context`. For more details about Contexts see the next section.
+
+Here is an example of annotated data sample.
+
+<a href="images/annotated-data-sample-entry.png" data-featherlight><img src="images/annotated-data-sample-entry.png" alt="API Output Sample"/></a>
 
 ### API Entry Context
 
