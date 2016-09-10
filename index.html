@@ -123,7 +123,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><script async defer src="http://slack.planetos.com/slackin.js?large"></script></li>
+            <li><a href="http://slack.planetos.com" target="_blank"><img width="130" src="http://slack.planetos.com/badge.svg" /></a></li>
             <li>© 2016 Planet OS Inc.</li>
         </ul>
     </div>
@@ -224,9 +224,119 @@
 
 <h3 id="example-of-an-authenticated-http-request">Example of an Authenticated HTTP Request</h3>
 
-<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}?apikey={apikey}</code></p>
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets?apikey={apikey}</code></p>
 
 <h2 id="dataset-endpoints">Dataset Endpoints</h2>
+
+<h3 id="dataset-list">/datasets</h3>
+
+<blockquote>
+<p>Request a list of all dataset IDs available in the system. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets?apikey={apikey}'</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="c"># response.text is raw output</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c"># turn JSON into python data structure</span>
+<span class="k">print</span> <span class="n">result</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+<span class="c1">// npm install request</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+  <span class="c1">// console.log(body);</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">});</span>
+
+</code></pre>
+<pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
+<span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
+
+<span class="n">dataset_meta_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sdatasets'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">)</span>
+<span class="n">list_of_ds_ids</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">dataset_meta_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">list_of_ds_ids</span><span class="p">)</span>
+
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="s2">"nasa_grctellus_ocean"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_gldas_lwc_monthly"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ndbc_swden_stations"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"myocean_sst_europe_daily"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_ghrsst_global_daily"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_ak"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_hawaii"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_3imerghhl"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"socib_forecast_western_mediterranean_daily"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"metoffice_glosea5_global_daily"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_3imerghhe"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ndbc_adcp_station"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"rss_ccmp_winds_v2"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"cmems_gwind"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_nah"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_ca"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_grctellus_land"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_etopo_global_1arcmin"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_icoads_enhanced_1d_day"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"myocean_sst_baltic_daily"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_gfs_global_sflux_0.12d"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_blended_sea_winds_6hr_global_0.25d"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_global_1.25x1d"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_wc"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_ao"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_prico"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa-ncep_gefs"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_nph"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ndbc_stdmet_stations"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"bom_access-g_global_40km"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_alaska"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_north_pacific"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"copernicus_biogeo_baltic_hourly"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_awips_phys"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_oscar_global_5day"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"copernicus_goba_global_weekly"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_at"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nasa_3imerghh"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"pacioos_swan_oahu"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_hurricane_ep"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_hurricane_at"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ndbc_cwind_stations"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_ep"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_hurricane_ak"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_ww3_hurricane_wc"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"hycom_glbu0.08_91.2_global_0.08d"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"noaa_nam_awips_12"</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>Get list of all dataset IDs.</p>
+
+<h4 id="http-request">HTTP REQUEST</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets?apikey={apikey}</code></p>
+
+<h4 id="response">RESPONSE</h4>
+
+<p>A flat list where each item is a plain text dataset ID.</p>
 
 <h3 id="datasets-id">/datasets/{id}</h3>
 
@@ -593,7 +703,7 @@
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#api-entry-context">Context section</a>.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -653,6 +763,21 @@
                 <div class="ui list">
                     <div class="item description">Sets an upper time boundary for dataset values. Return values at or before this timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.</div>
                     <div class="item example">2016-04-11T15:30:00Z</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">time_order</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">asc</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Orders samples in the API output by &ldquo;time&rdquo; dimension.</div>
+                    <div class="item example">desc</div>
                 </div>
             </td>
         </tr>
@@ -959,6 +1084,112 @@ curl --request GET <span class="se">\</span>
 <h4 id="response">Response</h4>
 
 <p>Response format is similar to the <a href="#point-endpoint">Point Endpoint</a>.</p>
+
+<h2 id="api-output-format">API output format</h2>
+
+<h3 id="api-entry">API entry</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"stats"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"timeMin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-06T18:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"nextOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"timeMax"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-22T18:00:00"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reftime_time_hybrid_lat_lon"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"axes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">49.495601654052734</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reftime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-06T18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-50.507659912109375</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-06T18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"z"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Temperature_hybrid"</span><span class="p">:</span><span class="w"> </span><span class="mf">286.1189880371094</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Let&rsquo;s start with an API output example for the GFS forecast by taking one variable <code class="prettyprint">Temperature_hybrid</code> from the list of 200+ variables. Use of single variable will make the example more readable.</p>
+
+<p>Root entries are <code class="prettyprint">stats</code> and <code class="prettyprint">entries</code>. Stats just describes user&rsquo;s query. Usually, it duplicates query parameters (like <code class="prettyprint">count</code> and <code class="prettyprint">start</code>/<code class="prettyprint">end</code>), but in case user omits the use of some query parameters this section shows defaults that were used.</p>
+
+<p>Entries section is a list of data samples selected by API query. In the example above we use default <code class="prettyprint">count</code> setting which is <code class="prettyprint">1</code>. So we have a single entry.</p>
+
+<p>Every entry has assigned XY, optionally Z and two timestamp coordinates as a part of <code class="prettyprint">axes</code> object.
+It is easy to notice that <code class="prettyprint">reftime</code> is always same as <code class="prettyprint">time</code> for observational datasets, unlike GFS in our example, which is forecast.</p>
+
+<p>So <code class="prettyprint">reftime</code> dimension is only useful for forecasts and some modelled datasets, where timestamp of dataset entry creation is different from the timestamp that dataset entry is describing.</p>
+
+<p>Data section of every entry may contain more than one variable. It is possible to query all variables from any dataset by just omitting <code class="prettyprint">var</code> parameter.
+Please take into account that variables are grouped by <code class="prettyprint">context</code>. For more details about Contexts see the next section.</p>
+
+<p>Here is an example of annotated data sample.</p>
+
+<p><a href="images/annotated-data-sample-entry.png" data-featherlight><img src="images/annotated-data-sample-entry.png" alt="API Output Sample"/></a></p>
+
+<h3 id="api-entry-context">API Entry Context</h3>
+<pre class="highlight javascript"><code><span class="p">{</span>
+    <span class="s2">"context"</span><span class="err">:</span> <span class="s2">"reftime_time_hybrid_lat_lon"</span><span class="p">,</span>
+    <span class="s2">"axes"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"latitude"</span><span class="err">:</span> <span class="mf">49.495601654052734</span><span class="p">,</span>
+      <span class="s2">"reftime"</span><span class="err">:</span> <span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span>
+      <span class="s2">"longitude"</span><span class="err">:</span> <span class="o">-</span><span class="mf">50.507659912109375</span><span class="p">,</span>
+      <span class="s2">"time"</span><span class="err">:</span> <span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span>
+      <span class="s2">"z"</span><span class="err">:</span> <span class="mf">1.0</span>
+    <span class="p">},</span>
+    <span class="s2">"data"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"u-component_of_wind_hybrid"</span><span class="err">:</span> <span class="mf">6.039999961853027</span><span class="p">,</span>
+      <span class="s2">"v-component_of_wind_hybrid"</span><span class="err">:</span> <span class="mf">0.5799999833106995</span>
+      <span class="s2">"Temperature_hybrid"</span><span class="err">:</span> <span class="mf">286.8609924316406</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+    <span class="s2">"context"</span><span class="err">:</span> <span class="s2">"reftime_time_lat_lon"</span><span class="p">,</span>
+    <span class="s2">"axes"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"reftime"</span><span class="err">:</span> <span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span>
+      <span class="s2">"time"</span><span class="err">:</span> <span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span>
+      <span class="s2">"longitude"</span><span class="err">:</span> <span class="o">-</span><span class="mf">50.507659912109375</span><span class="p">,</span>
+      <span class="s2">"latitude"</span><span class="err">:</span> <span class="mf">49.495601654052734</span>
+    <span class="p">},</span>
+    <span class="s2">"data"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"Total_cloud_cover_convective_cloud"</span><span class="err">:</span> <span class="mf">0.0</span><span class="p">,</span>
+      <span class="s2">"Downward_Short-Wave_Radiation_Flux_surface"</span><span class="err">:</span> <span class="mf">296.0</span><span class="p">,</span>
+      <span class="s2">"Planetary_Boundary_Layer_Height_surface"</span><span class="err">:</span> <span class="mf">36.0</span><span class="p">,</span>
+      <span class="s2">"Aerodynamic_conductance_surface"</span><span class="err">:</span> <span class="mf">0.0031999999191612005</span><span class="p">,</span>
+      <span class="s2">"Temperature_surface"</span><span class="err">:</span> <span class="mf">282.31201171875</span><span class="p">,</span>
+      <span class="s2">"Pressure_surface"</span><span class="err">:</span> <span class="mf">101690.0</span><span class="p">,</span>
+      <span class="s2">"Upward_Short-Wave_Radiation_Flux_surface"</span><span class="err">:</span> <span class="mf">18.0</span><span class="p">,</span>
+      <span class="s2">"Latent_heat_net_flux_surface"</span><span class="err">:</span> <span class="o">-</span><span class="mf">25.0</span><span class="p">,</span>
+      <span class="s2">"Geopotential_height_surface"</span><span class="err">:</span> <span class="o">-</span><span class="mf">0.004031249787658453</span><span class="p">,</span>
+      <span class="s2">"Upward_Long-Wave_Radp_Flux_surface"</span><span class="err">:</span> <span class="mf">349.0</span><span class="p">,</span>
+      <span class="s2">"Exchange_Coefficient_surface"</span><span class="err">:</span> <span class="mf">0.004100000020116568</span><span class="p">,</span>
+      <span class="s2">"Sensible_heat_net_flux_surface"</span><span class="err">:</span> <span class="o">-</span><span class="mf">20.0</span><span class="p">,</span>
+      <span class="s2">"Frictional_Velocity_surface"</span><span class="err">:</span> <span class="mf">0.14000000059604645</span><span class="p">,</span>
+      <span class="s2">"Downward_Long-Wave_Radp_Flux_surface"</span><span class="err">:</span> <span class="mf">347.0</span><span class="p">,</span>
+      <span class="s2">"Precipitable_water_entire_atmosphere_single_layer"</span><span class="err">:</span> <span class="mf">26.899999618530273</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+
+<p>Contexts are simply variable groups. Variables that share the same set of dimensions belong to a single shared context.
+Contexts are machine-generated, so it’s not always easy to understand what particular context contains by just looking at its id.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reftime_time_lat_lon"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"axes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"reftime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-07T12:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-50.507659912109375</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">49.495601654052734</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Most common context is LonLat + Z + time + reftime. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
+In this cases, variable with Z dimension in Pascals will have a different context than variable with Z dimension in meters.</p>
 
 <h2 id="api-console">API Console</h2>
 
