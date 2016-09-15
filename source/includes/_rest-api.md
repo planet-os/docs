@@ -400,7 +400,7 @@ rest_data = webread(dataset_point_url, 'apikey', apikey, 'lon', -50, 'lat', 50)
 Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
 
 #### HTTP REQUEST
-`GET http://api.planetos.com/v1/datasets/{id}/point?apikey={apikey}`
+`GET http://api.planetos.com/v1/datasets/{id}/point?lon={longitude}&lat={latitude}apikey={apikey}`
 
 #### HTTP QUERY PARAMETERS
 
@@ -501,7 +501,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#api-entry-context">Context section</a>.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#data-point-context">Context section</a>.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -700,6 +700,10 @@ Provides values for the specified dataset at a given point of interest. Points a
     </tbody>
 </table>
 
+#### RESPONSE
+
+Response format is documented in a separate section — [Data Values Output Format](#data-values-output-format).
+
 ### /datasets/{id}/area
 
 > Request values from the [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset at a specific point coordinate. Make sure to replace `{apikey}` with your own API key:<br/>
@@ -796,10 +800,10 @@ rest_data = webread(dataset_point_url, 'apikey', apikey, 'polygon', '[[-94,26],[
 }
 ```
 
-Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
+Provides values for the specified dataset at a given area of interest. Area-based query output is a grid of Points which are expressed using longitude and latitude coordinates in decimal degrees.
 
 #### HTTP REQUEST
-`GET http://api.planetos.com/v1/datasets/{id}/area?apikey={apikey}`
+`GET http://api.planetos.com/v1/datasets/{id}/area?polygon={polygon}&apikey={apikey}`
 
 #### HTTP QUERY PARAMETERS
 
@@ -826,6 +830,10 @@ Query parameters of `/area` endpoint are the same as for [`/point`](#point-endpo
         </tr>
     </tbody>
 </table>
+
+#### RESPONSE
+
+Response format is documented in a separate section — [Data Values Output Format](#data-values-output-format).
 
 ### /datasets/{id}/stations
 
@@ -1015,7 +1023,7 @@ Response format is similar to the [`/point`](#point-endpoint) endpoint.
 
 ## API output format
 
-### API entry
+### Data Values Output Format
 
 ```json
 {
@@ -1060,7 +1068,7 @@ Here is an example of annotated data sample.
 
 <a href="images/annotated-data-sample-entry.png" data-featherlight><img src="images/annotated-data-sample-entry.png" alt="API Output Sample"/></a>
 
-### API Entry Context
+### Data Point Context
 
 ```javascript
 {
