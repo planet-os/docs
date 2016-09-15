@@ -700,6 +700,133 @@ Provides values for the specified dataset at a given point of interest. Points a
     </tbody>
 </table>
 
+### /datasets/{id}/area
+
+> Request values from the [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset at a specific point coordinate. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area?polygon=[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]&apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area"
+
+querystring = {"polygon": "[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]","apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area',
+  qs: { polygon: '[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]', apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+
+dataset_point_url = sprintf('%sdatasets/%s/area', api_root_url, dataset_id)
+rest_data = webread(dataset_point_url, 'apikey', apikey, 'polygon', '[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]')
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "stats": {
+    "offset": 0,
+    "count": 1
+  },
+  "entries": [{
+    "context": "reftime_time_lat_lon",
+    "axes": {
+      "reftime": "2016-04-24T12:00:00",
+      "time": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "latitude": 50.0
+    },
+    "data": {
+      "Wind_speed_surface": 4.409999847412109,
+      "Wind_direction_from_which_blowing_surface": 171.86000061035156,
+      "v-component_of_wind_surface": 4.360000133514404,
+      "u-component_of_wind_surface": -0.6200000047683716,
+      "Direction_of_wind_waves_surface": 98.7699966430664,
+      "Primary_wave_mean_period_surface": 10.760000228881836,
+      "Primary_wave_direction_surface": 94.48999786376953,
+      "Significant_height_of_wind_waves_surface": null,
+      "Mean_period_of_wind_waves_surface": 9.59000015258789,
+      "Secondary_wave_mean_period_surface": null,
+      "Significant_height_of_combined_wind_waves_and_swell_surface": 2.1500000953674316,
+      "Secondary_wave_direction_surface": null
+    }
+  }, {
+    "context": "reftime_time_lat_lon_ordered_sequence_of_data",
+    "axes": {
+      "latitude": 50.0,
+      "reftime": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "time": "2016-04-24T12:00:00",
+      "iter_ordered_sequence_of_data": 0.0
+    },
+    "data": {
+      "Direction_of_swell_waves_ordered_sequence_of_data": 148.16000366210938,
+      "Mean_period_of_swell_waves_ordered_sequence_of_data": 9.539999961853027,
+      "Significant_height_of_swell_waves_ordered_sequence_of_data": 0.9599999785423279
+    }
+  }]
+}
+```
+
+Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/area?apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
+
+Query parameters of `/area` endpoint are the same as for [`/point`](#point-endpoint) endpoint, except the `lon` and `lat` coordinates. Instead, `/area` uses `polygon` parameter.
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">polygon</div>
+                    <div class="item required">required</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Polygon defined by the list of Longitude-Latitude pairs.</div>
+                    <div class="item example">
+                      <code class="prettyprint">[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ### /datasets/{id}/stations
 
 > Request stations within the [`noaa_ndbc_stdmet_stations`](http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
@@ -881,10 +1008,10 @@ Get values for a station. _Note that not all datasets contain stations._
 `GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}?apikey={apikey}`
 
 #### HTTP Query Parameters
-Accepts the same query parameters as the [Point Endpoint](#point-endpoint).
+Accepts the same query parameters as the [`/point`](#point-endpoint) endpoint.
 
 #### Response
-Response format is similar to the [Point Endpoint](#point-endpoint).
+Response format is similar to the [`/point`](#point-endpoint) endpoint.
 
 ## API output format
 
