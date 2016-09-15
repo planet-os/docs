@@ -1052,7 +1052,7 @@ Response format is similar to the [`/point`](#point-endpoint) endpoint.
 
 Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
 
-Root entries are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
+Root elements are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
 
 Entries section is a list of data samples selected by API query. In the example above we use default `count` setting which is `1`. So we have a single entry.
 
