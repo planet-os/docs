@@ -400,7 +400,7 @@ rest_data = webread(dataset_point_url, 'apikey', apikey, 'lon', -50, 'lat', 50)
 Provides values for the specified dataset at a given point of interest. Points are expressed using longitude and latitude coordinates in decimal degrees.
 
 #### HTTP REQUEST
-`GET http://api.planetos.com/v1/datasets/{id}/point?apikey={apikey}`
+`GET http://api.planetos.com/v1/datasets/{id}/point?lon={longitude}&lat={latitude}apikey={apikey}`
 
 #### HTTP QUERY PARAMETERS
 
@@ -501,7 +501,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#api-entry-context">Context section</a>.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#data-point-context">Context section</a>.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -700,6 +700,141 @@ Provides values for the specified dataset at a given point of interest. Points a
     </tbody>
 </table>
 
+#### RESPONSE
+
+Response format is documented in a separate section — [Data Values Output Format](#data-values-output-format).
+
+### /datasets/{id}/area
+
+> Request values from the [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset at a specific point coordinate. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area?polygon=[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]&apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area"
+
+querystring = {"polygon": "[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]","apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area',
+  qs: { polygon: '[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]', apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+```matlab
+apikey = '{apikey}'
+dataset_id = 'noaa_ww3_global_1.25x1d'
+api_root_url = 'http://api.planetos.com/v1/'
+
+dataset_point_url = sprintf('%sdatasets/%s/area', api_root_url, dataset_id)
+rest_data = webread(dataset_point_url, 'apikey', apikey, 'polygon', '[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]')
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "stats": {
+    "offset": 0,
+    "count": 1
+  },
+  "entries": [{
+    "context": "reftime_time_lat_lon",
+    "axes": {
+      "reftime": "2016-04-24T12:00:00",
+      "time": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "latitude": 50.0
+    },
+    "data": {
+      "Wind_speed_surface": 4.409999847412109,
+      "Wind_direction_from_which_blowing_surface": 171.86000061035156,
+      "v-component_of_wind_surface": 4.360000133514404,
+      "u-component_of_wind_surface": -0.6200000047683716,
+      "Direction_of_wind_waves_surface": 98.7699966430664,
+      "Primary_wave_mean_period_surface": 10.760000228881836,
+      "Primary_wave_direction_surface": 94.48999786376953,
+      "Significant_height_of_wind_waves_surface": null,
+      "Mean_period_of_wind_waves_surface": 9.59000015258789,
+      "Secondary_wave_mean_period_surface": null,
+      "Significant_height_of_combined_wind_waves_and_swell_surface": 2.1500000953674316,
+      "Secondary_wave_direction_surface": null
+    }
+  }, {
+    "context": "reftime_time_lat_lon_ordered_sequence_of_data",
+    "axes": {
+      "latitude": 50.0,
+      "reftime": "2016-04-24T12:00:00",
+      "longitude": -49.99999999999997,
+      "time": "2016-04-24T12:00:00",
+      "iter_ordered_sequence_of_data": 0.0
+    },
+    "data": {
+      "Direction_of_swell_waves_ordered_sequence_of_data": 148.16000366210938,
+      "Mean_period_of_swell_waves_ordered_sequence_of_data": 9.539999961853027,
+      "Significant_height_of_swell_waves_ordered_sequence_of_data": 0.9599999785423279
+    }
+  }]
+}
+```
+
+Provides values for the specified dataset at a given area of interest. Area-based query output is a grid of Points which are expressed using longitude and latitude coordinates in decimal degrees.
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/area?polygon={polygon}&apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
+
+Query parameters of `/area` endpoint are the same as for [`/point`](#point-endpoint) endpoint, except the `lon` and `lat` coordinates. Instead, `/area` uses `polygon` parameter.
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">polygon</div>
+                    <div class="item required">required</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Polygon defined by the list of Longitude-Latitude pairs.</div>
+                    <div class="item example">
+                      <code class="prettyprint">[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#### RESPONSE
+
+Response format is documented in a separate section — [Data Values Output Format](#data-values-output-format).
+
 ### /datasets/{id}/stations
 
 > Request stations within the [`noaa_ndbc_stdmet_stations`](http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
@@ -881,14 +1016,14 @@ Get values for a station. _Note that not all datasets contain stations._
 `GET http://api.planetos.com/v1/datasets/{id}/stations/{station_id}?apikey={apikey}`
 
 #### HTTP Query Parameters
-Accepts the same query parameters as the [Point Endpoint](#point-endpoint).
+Accepts the same query parameters as the [`/point`](#point-endpoint) endpoint.
 
 #### Response
-Response format is similar to the [Point Endpoint](#point-endpoint).
+Response format is similar to the [`/point`](#point-endpoint) endpoint.
 
 ## API output format
 
-### API entry
+### Data Values Output Format
 
 ```json
 {
@@ -917,7 +1052,7 @@ Response format is similar to the [Point Endpoint](#point-endpoint).
 
 Let's start with an API output example for the GFS forecast by taking one variable `Temperature_hybrid` from the list of 200+ variables. Use of single variable will make the example more readable.
 
-Root entries are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
+Root elements are `stats` and `entries`. Stats just describes user's query. Usually, it duplicates query parameters (like `count` and `start`/`end`), but in case user omits the use of some query parameters this section shows defaults that were used.
 
 Entries section is a list of data samples selected by API query. In the example above we use default `count` setting which is `1`. So we have a single entry.
 
@@ -933,7 +1068,7 @@ Here is an example of annotated data sample.
 
 <a href="images/annotated-data-sample-entry.png" data-featherlight><img src="images/annotated-data-sample-entry.png" alt="API Output Sample"/></a>
 
-### API Entry Context
+### Data Point Context
 
 ```javascript
 {
