@@ -516,7 +516,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">The total number of results to return.</div>
+                    <div class="item description">The total number of results (data samples) to return. Single sample is identified by unique LonLat coordinate and timestamp. Variables from a single sample can be split into <a href="#data-point-context">contexts</a>.</div>
                     <div class="item example">100</div>
                 </div>
             </td>
@@ -1070,8 +1070,12 @@ Here is an example of annotated data sample.
 
 ### Data Point Context
 
-```javascript
-{
+> Multi-context data sample example
+> (two contexts for a single data sample, which defined by LonLat and timestamps)
+
+```json
+[
+  {
     "context": "reftime_time_hybrid_lat_lon",
     "axes": {
       "latitude": 49.495601654052734,
@@ -1082,12 +1086,12 @@ Here is an example of annotated data sample.
     },
     "data": {
       "u-component_of_wind_hybrid": 6.039999961853027,
-      "v-component_of_wind_hybrid": 0.5799999833106995
-      "Temperature_hybrid": 286.8609924316406,
+      "v-component_of_wind_hybrid": 0.5799999833106995,
+      "Temperature_hybrid": 286.8609924316406
     }
-}
+  },
 
-{
+  {
     "context": "reftime_time_lat_lon",
     "axes": {
       "reftime": "2016-09-07T12:00:00",
@@ -1113,24 +1117,13 @@ Here is an example of annotated data sample.
       "Precipitable_water_entire_atmosphere_single_layer": 26.899999618530273
     }
   }
+]
 ```
 
 Contexts are simply variable groups. Variables that share the same set of dimensions belong to a single shared context.
 Contexts are machine-generated, so it’s not always easy to understand what particular context contains by just looking at its id.
 
-```json
-{
-    "context": "reftime_time_lat_lon",
-    "axes": {
-      "reftime": "2016-09-07T12:00:00",
-      "time": "2016-09-07T12:00:00",
-      "longitude": -50.507659912109375,
-      "latitude": 49.495601654052734
-    }
-}
-```
-
-Most common context is LonLat + Z + time + reftime. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
+Most common context is *LonLat + Z + time* or *LonLat + Z + time + reftime* for forecasts. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
 In this cases, variable with Z dimension in Pascals will have a different context than variable with Z dimension in meters.
 
 ## API Console
