@@ -835,6 +835,83 @@ Query parameters of `/area` endpoint are the same as for [`/point`](#point-endpo
 
 Response format is documented in a separate section — [Data Values Output Format](#data-values-output-format).
 
+<h3 id="datasets-id-area-beta">/datasets/{id}/area (β)</h3>
+
+> Example API output with location-based grouping
+
+```json
+{
+  "data": {
+    "Temperature_height_above_ground": [
+      [271.0320129394531, 271.0119934082031, 270.97601318359375, 268.4639892578125],
+      [271.7619934082031, 271.7699890136719, 271.7980041503906, 271.85400390625],
+      [271.0320129394531, 271.0119934082031, 270.97601318359375, 268.4639892578125]
+    ]
+  },
+  "indexAxes": [
+    ["latitude", [57.1, 57.2, 57.3]],
+    ["longitude", [22.0, 22.1, 22.2, 22.3]]
+  ]
+}
+```
+
+> Example code showing how dimensions from the `data` and `indexAxes` attributes align
+
+```python
+n = 0 # first row
+# number of rows of values in data array should be the same as the number of values in the first "index axis"
+len(sample['data']['Temperature_height_above_ground']) == len(sample['indexAxes'][0][1])
+# number of values in row #n should be the same as the number of values in the second "index axis"
+len(sample['data']['Temperature_height_above_ground'][n]) == len(sample['indexAxes'][1][1])
+```
+
+```javascript
+var n = 0 // first row
+// number of rows of values in data array should be the same as the number of values in the first "index axis"
+sample['data']['Temperature_height_above_ground'].length == sample['indexAxes'][0][1].length
+// number of values in row #n should be the same as the number of values in the second "index axis"
+sample['data']['Temperature_height_above_ground'][n].length == sample['indexAxes'][1][1].length
+```
+
+**An experimental feature of [`/area`](#datasets-id-area) API endpoint.**
+
+Allows to retrieve all values from the provided polygon and a single timestamp in one request without pagination.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/datasets/{id}/area?polygon={polygon}&apikey={apikey}&grouping=location`
+
+#### HTTP QUERY PARAMETERS
+
+A new experimental area-specific query parameter `grouping` renders the output of the single API sample as an array of arrays covering the whole dimension like LonLat.
+
+The output of location-based grouping has additional attribute — `indexAxes`. It contains a list of tuples (pairs) of dimension name and dimension coordinates values.
+
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">grouping</div>
+                    <div class="item experimental">optional, experimental</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Group data values into a single sample using provided dimension. The only supported dimension, for now, is "location."</div>
+                    <div class="item example">
+                      <code class="prettyprint">
+                      location
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
 ### /datasets/{id}/stations
 
 > Request stations within the [`noaa_ndbc_stdmet_stations`](http://data.planetos.com/datasets/noaa_ndbc_stdmet_stations:ndbc-standard-meteorological-data) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
