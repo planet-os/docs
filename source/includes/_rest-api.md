@@ -10,6 +10,299 @@ Your API Key is:
 ### Example of an Authenticated HTTP Request
 `GET http://api.planetos.com/v1/datasets?apikey={apikey}`
 
+## Search & Discovery Endpoints
+
+### Dataset Search
+
+> Search and filter datasets index by keyword and facet. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/search/text?q=temperature&apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/search/text"
+
+querystring = {
+  "apikey":"{apikey}",
+  "q": "temperature"
+}
+
+response = requests.request("GET", url, params=querystring)
+
+# response.text is raw output
+result = response.json()  # turn JSON into python data structure
+print result
+```
+
+```javascript
+var request = require("request");
+// npm install request
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/search/text',
+  qs: { apikey: '{apikey}', q: 'temperature' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+  // console.log(body);
+  var result = JSON.parse(body)
+  console.log(result)
+});
+
+```
+
+```matlab
+apikey = '{apikey}'
+api_root_url = 'http://api.planetos.com/v1/'
+
+all_variables_url = sprintf('%ssearch/text', api_root_url)
+list_of_variables = webread(all_variables_url, 'apikey', apikey, 'q', 'temperature')
+disp(list_of_variables)
+
+```
+
+> The above command returns JSON structured like this (sample):
+
+```json
+{
+  "count": 10,
+  "isError": false,
+  "searchedPolygons": [],
+  "results": [
+    {
+      "key": "nasa_ghrsst_global_daily",
+      "title": "GHRSST Level 4 G1SST Global Foundation Sea Surface Temperature Analysis",
+      "summary": "A Group for High Resolution Sea Surface Temperature (GHRSST) …",
+      "UpdateFrequency": "1 day",
+      "timeCoverage": [{
+        "timeFrom": "2016-10-01T00:00:00+0000",
+        "timeTo": "2016-10-31T00:00:00+0000"
+      }],
+      "TemporalResolution": "1 day",
+      "ProductType": "Analysis",
+      "SpatialResolution": "0.009 degrees",
+      "FeatureType": "GRID",
+      "snippets": [],
+      "geoCoverage": [
+        {
+          "type": "MultiPolygon",
+          "coordinates": [[[[-179.9, 80.5], [-179.9, -80.5], [179.9, -80.5], [179.9, 80.5], [-179.9, 80.5] ] ] ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Filter dataset index by specified criteria. It supports free text search as well as predefined facets, like a variable, time range, spatial and temporal resolution, publisher, dataset type (time-series, grid), data product type (forecast, observation, model, etc.)
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/search/text?q=temperature&apikey={apikey}`
+
+<h4 id="http-query-parameters-facets">HTTP QUERY PARAMETERS</h4>
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">variable</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Filter by variable key</div>
+                    <div class="item example">WIND_SPEED</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">variable_partial</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Partial variable key match</div>
+                    <div class="item example">wind</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">after</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Time range start</div>
+                    <div class="item example">2016-10-01</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">before</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Time range end</div>
+                    <div class="item example">2016-11-10</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">product_type</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Type of data rroduct</div>
+                    <div class="item example">MODEL | OBSERVATION | FORECAST</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">feature_type</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data type</div>
+                    <div class="item example">GRID | TIMESERIES</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">publisher</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data publisher</div>
+                    <div class="item example">COPERNICUS</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#### RESPONSE
+The response includes a `count` of matches, a list of matched datasets (`results`) with dataset IDs (`key`) and a set of metadata attributes.
+
+### Search facet values
+> Request a list of all facets available in the system. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/browse/open/variables?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/browse/open/variables"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+# response.text is raw output
+result = response.json()  # turn JSON into python data structure
+print result
+```
+
+```javascript
+var request = require("request");
+// npm install request
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/browse/open/variables',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+  // console.log(body);
+  var result = JSON.parse(body)
+  console.log(result)
+});
+
+```
+
+```matlab
+apikey = '{apikey}'
+api_root_url = 'http://api.planetos.com/v1/'
+
+all_variables_url = sprintf('%sbrowse/open/variables', api_root_url)
+list_of_variables = webread(all_variables_url, 'apikey', apikey)
+disp(list_of_variables)
+
+```
+
+> The above command returns JSON structured like this (sample):
+
+```json
+[
+  ["WNDGUST10M", "10m wind gust"],
+  ["WIND_SPEED", "10m wind speed"],
+  ["ATMP", "ATMOSPHERIC_PRESSURE"],
+  ["DEWPT_TEMPERATURE", "Dew Point Temperature"],
+  ["DEWPOINT_TEMPERATURE_HYBRID", "Dewpoint temperature @ Hybrid level"],
+  ["NITRATE", "Nitrate_Concentration"],
+  ["WATER_V", "Northward Water Velocity"],
+  ["WATER_U", "Eastward Water Velocity"],
+  ["UV-B_DOWNWARD_SOLAR_FLUX_SURFACE_12_HOUR_AVERAGE", "UV-B Downward Solar Flux (12_Hour Average) @ Ground or water surface"],
+  ["WATER_TEMP", "Water Temperature"]
+]
+```
+
+Dataset search is enhanced with additional faced-based filtering. To take advantage of it, please use these API endpoints which list all possible facet values.
+
+**[Table of matching search parameters](#http-query-parameters-facets).**
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/browse/open/variables?apikey={apikey}`
+
+`GET http://api.planetos.com/v1/browse/open/filters/SpatialResolution?apikey={apikey}`
+
+`GET http://api.planetos.com/v1/browse/open/filters/TemporalResolution?apikey={apikey}`
+
+`GET http://api.planetos.com/v1/browse/open/filters/ProductType?apikey={apikey}`
+
+`GET http://api.planetos.com/v1/browse/open/filters/FeatureType?apikey={apikey}`
+
+`GET http://api.planetos.com/v1/browse/open/filters/Publisher?apikey={apikey}`
+
+#### RESPONSE
+A list of facets key value tuple pairs. The key is for making API queries, while value might be used as a human-friendly facet representation for UIs, data visualizations, etc.
+
 ## Dataset Endpoints
 
 <h3 id="dataset-list">/datasets</h3>
