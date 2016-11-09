@@ -226,6 +226,290 @@
 
 <p><code class="prettyprint">GET http://api.planetos.com/v1/datasets?apikey={apikey}</code></p>
 
+<h2 id="search-amp-discovery-endpoints">Search &amp; Discovery Endpoints</h2>
+
+<h3 id="dataset-search">Dataset Search</h3>
+
+<blockquote>
+<p>Search and filter datasets index by keyword and facet. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/search/text?q=temperature&amp;apikey={apikey}'</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/search/text"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">,</span>
+  <span class="s">"q"</span><span class="p">:</span> <span class="s">"temperature"</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="c"># response.text is raw output</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c"># turn JSON into python data structure</span>
+<span class="k">print</span> <span class="n">result</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+<span class="c1">// npm install request</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/search/text'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span><span class="p">,</span> <span class="na">q</span><span class="p">:</span> <span class="s1">'temperature'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+  <span class="c1">// console.log(body);</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">});</span>
+
+</code></pre>
+<pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
+<span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
+
+<span class="n">all_variables_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%ssearch/text'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">)</span>
+<span class="n">list_of_variables</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">all_variables_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">,</span> <span class="s1">'q'</span><span class="p">,</span> <span class="s1">'temperature'</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">list_of_variables</span><span class="p">)</span>
+
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this (sample):</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"isError"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"searchedPolygons"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nasa_ghrsst_global_daily"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHRSST Level 4 G1SST Global Foundation Sea Surface Temperature Analysis"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A Group for High Resolution Sea Surface Temperature (GHRSST) …"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"UpdateFrequency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 day"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"timeCoverage"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"timeFrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-10-01T00:00:00+0000"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"timeTo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-10-31T00:00:00+0000"</span><span class="w">
+      </span><span class="p">}],</span><span class="w">
+      </span><span class="nt">"TemporalResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 day"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"ProductType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Analysis"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"SpatialResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.009 degrees"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"FeatureType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GRID"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"snippets"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="nt">"geoCoverage"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MultiPolygon"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[[[[</span><span class="mf">-179.9</span><span class="p">,</span><span class="w"> </span><span class="mf">80.5</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">-179.9</span><span class="p">,</span><span class="w"> </span><span class="mf">-80.5</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">179.9</span><span class="p">,</span><span class="w"> </span><span class="mf">-80.5</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">179.9</span><span class="p">,</span><span class="w"> </span><span class="mf">80.5</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">-179.9</span><span class="p">,</span><span class="w"> </span><span class="mf">80.5</span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Filter dataset index by specified criteria. It supports free text search as well as predefined facets, like a variable, time range, spatial and temporal resolution, publisher, dataset type (time-series, grid), data product type (forecast, observation, model, etc.)</p>
+
+<h4 id="http-request">HTTP REQUEST</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/search/text?q=temperature&amp;apikey={apikey}</code></p>
+
+<h4 id="http-query-parameters-facets">HTTP QUERY PARAMETERS</h4>
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">variable</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Filter by variable key</div>
+                    <div class="item example">WIND_SPEED</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">variable_partial</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Partial variable key match</div>
+                    <div class="item example">wind</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">after</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Time range start</div>
+                    <div class="item example">2016-10-01</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">before</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Time range end</div>
+                    <div class="item example">2016-11-10</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">product_type</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Type of data rroduct</div>
+                    <div class="item example">MODEL | OBSERVATION | FORECAST</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">feature_type</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data type</div>
+                    <div class="item example">GRID | TIMESERIES</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">publisher</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data publisher</div>
+                    <div class="item example">COPERNICUS</div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="response">RESPONSE</h4>
+
+<p>The response includes a <code class="prettyprint">count</code> of matches, a list of matched datasets (<code class="prettyprint">results</code>) with dataset IDs (<code class="prettyprint">key</code>) and a set of metadata attributes.</p>
+
+<h3 id="search-facet-values">Search facet values</h3>
+
+<blockquote>
+<p>Request a list of all facets available in the system. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/browse/open/variables?apikey={apikey}'</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/browse/open/variables"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span><span class="s">"apikey"</span><span class="p">:</span><span class="s">"{apikey}"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="c"># response.text is raw output</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c"># turn JSON into python data structure</span>
+<span class="k">print</span> <span class="n">result</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+<span class="c1">// npm install request</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/browse/open/variables'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+  <span class="c1">// console.log(body);</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">});</span>
+
+</code></pre>
+<pre class="highlight matlab"><code><span class="n">apikey</span> <span class="o">=</span> <span class="s1">'{apikey}'</span>
+<span class="n">api_root_url</span> <span class="o">=</span> <span class="s1">'http://api.planetos.com/v1/'</span>
+
+<span class="n">all_variables_url</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'%sbrowse/open/variables'</span><span class="p">,</span> <span class="n">api_root_url</span><span class="p">)</span>
+<span class="n">list_of_variables</span> <span class="o">=</span> <span class="n">webread</span><span class="p">(</span><span class="n">all_variables_url</span><span class="p">,</span> <span class="s1">'apikey'</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">list_of_variables</span><span class="p">)</span>
+
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this (sample):</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"WNDGUST10M"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10m wind gust"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"WIND_SPEED"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10m wind speed"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"ATMP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ATMOSPHERIC_PRESSURE"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"DEWPT_TEMPERATURE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Dew Point Temperature"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"DEWPOINT_TEMPERATURE_HYBRID"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Dewpoint temperature @ Hybrid level"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"NITRATE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Nitrate_Concentration"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"WATER_V"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Northward Water Velocity"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"WATER_U"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Eastward Water Velocity"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"UV-B_DOWNWARD_SOLAR_FLUX_SURFACE_12_HOUR_AVERAGE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UV-B Downward Solar Flux (12_Hour Average) @ Ground or water surface"</span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="s2">"WATER_TEMP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Water Temperature"</span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>Dataset search is enhanced with additional faced-based filtering. To take advantage of it, please use these API endpoints which list all possible facet values.</p>
+
+<p><strong><a href="#http-query-parameters-facets">Table of matching search parameters</a>.</strong></p>
+
+<h4 id="http-request">HTTP REQUEST</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/variables?apikey={apikey}</code></p>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/filters/SpatialResolution?apikey={apikey}</code></p>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/filters/TemporalResolution?apikey={apikey}</code></p>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/filters/ProductType?apikey={apikey}</code></p>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/filters/FeatureType?apikey={apikey}</code></p>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/browse/open/filters/Publisher?apikey={apikey}</code></p>
+
+<h4 id="response">RESPONSE</h4>
+
+<p>A list of facets key value tuple pairs. The key is for making API queries, while value might be used as a human-friendly facet representation for UIs, data visualizations, etc.</p>
+
 <h2 id="dataset-endpoints">Dataset Endpoints</h2>
 
 <h3 id="dataset-list">/datasets</h3>
@@ -1031,6 +1315,79 @@
 <h4 id="response">RESPONSE</h4>
 
 <p>Response format is documented in a separate section — <a href="#data-values-output-format">Data Values Output Format</a>.</p>
+
+<h3 id="datasets-id-area-beta">/datasets/{id}/area (β)</h3>
+
+<blockquote>
+<p>Example API output with location-based grouping</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"Temperature_height_above_ground"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="mf">271.0320129394531</span><span class="p">,</span><span class="w"> </span><span class="mf">271.0119934082031</span><span class="p">,</span><span class="w"> </span><span class="mf">270.97601318359375</span><span class="p">,</span><span class="w"> </span><span class="mf">268.4639892578125</span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="mf">271.7619934082031</span><span class="p">,</span><span class="w"> </span><span class="mf">271.7699890136719</span><span class="p">,</span><span class="w"> </span><span class="mf">271.7980041503906</span><span class="p">,</span><span class="w"> </span><span class="mf">271.85400390625</span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="mf">271.0320129394531</span><span class="p">,</span><span class="w"> </span><span class="mf">271.0119934082031</span><span class="p">,</span><span class="w"> </span><span class="mf">270.97601318359375</span><span class="p">,</span><span class="w"> </span><span class="mf">268.4639892578125</span><span class="p">]</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"indexAxes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">57.1</span><span class="p">,</span><span class="w"> </span><span class="mf">57.2</span><span class="p">,</span><span class="w"> </span><span class="mf">57.3</span><span class="p">]],</span><span class="w">
+    </span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">22.0</span><span class="p">,</span><span class="w"> </span><span class="mf">22.1</span><span class="p">,</span><span class="w"> </span><span class="mf">22.2</span><span class="p">,</span><span class="w"> </span><span class="mf">22.3</span><span class="p">]]</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Example code showing how dimensions from the <code class="prettyprint">data</code> and <code class="prettyprint">indexAxes</code> attributes align</p>
+</blockquote>
+<pre class="highlight python"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># first row</span>
+<span class="c"># number of rows of values in data array should be the same as the number of values in the first "index axis"</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'Temperature_height_above_ground'</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s">'indexAxes'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<span class="c"># number of values in row #n should be the same as the number of values in the second "index axis"</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'Temperature_height_above_ground'</span><span class="p">][</span><span class="n">n</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s">'indexAxes'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">// first row</span>
+<span class="c1">// number of rows of values in data array should be the same as the number of values in the first "index axis"</span>
+<span class="nx">sample</span><span class="p">[</span><span class="s1">'data'</span><span class="p">][</span><span class="s1">'Temperature_height_above_ground'</span><span class="p">].</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">sample</span><span class="p">[</span><span class="s1">'indexAxes'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="nx">length</span>
+<span class="c1">// number of values in row #n should be the same as the number of values in the second "index axis"</span>
+<span class="nx">sample</span><span class="p">[</span><span class="s1">'data'</span><span class="p">][</span><span class="s1">'Temperature_height_above_ground'</span><span class="p">][</span><span class="nx">n</span><span class="p">].</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">sample</span><span class="p">[</span><span class="s1">'indexAxes'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="nx">length</span>
+</code></pre>
+
+<p><strong>An experimental feature of <a href="#datasets-id-area"><code class="prettyprint">/area</code></a> API endpoint.</strong></p>
+
+<p>Allows to retrieve all values from the provided polygon and a single timestamp in one request without pagination.</p>
+
+<h4 id="http-request">HTTP REQUEST</h4>
+
+<p><code class="prettyprint">GET http://api.planetos.com/v1/datasets/{id}/area?polygon={polygon}&amp;apikey={apikey}&amp;grouping=location</code></p>
+
+<h4 id="http-query-parameters">HTTP QUERY PARAMETERS</h4>
+
+<p>A new experimental area-specific query parameter <code class="prettyprint">grouping</code> renders the output of the single API sample as an array of arrays covering the whole dimension like LonLat.</p>
+
+<p>The output of location-based grouping has additional attribute — <code class="prettyprint">indexAxes</code>. It contains a list of tuples (pairs) of dimension name and dimension coordinates values.</p>
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">grouping</div>
+                    <div class="item experimental">optional, experimental</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Group data values into a single sample using provided dimension. The only supported dimension, for now, is &ldquo;location.&rdquo;</div>
+                    <div class="item example">
+                      <code class="prettyprint">
+                      location
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <h3 id="datasets-id-stations">/datasets/{id}/stations</h3>
 
