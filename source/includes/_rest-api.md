@@ -1496,6 +1496,287 @@ Contexts are machine-generated, so it’s not always easy to understand what par
 Most common context is *LonLat + Z + time* or *LonLat + Z + time + reftime* for forecasts. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
 In this cases, variable with Z dimension in Pascals will have a different context than variable with Z dimension in meters.
 
+## Bulk data packaging (β)
+
+A set of experimental API endpoints for packaging larger data requests in binary form (zipped [NetCDF](https://en.wikipedia.org/wiki/NetCDF) files) and asynchronously fetching them for offline workflow.
+
+### GET /packages
+
+> Request a list of previously submitted user's packages.<br/>
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/packages?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/packages"
+
+querystring = { "apikey": "{apikey}" }
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/packages',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "packageKeys": [
+    "0d823a53-61b7-41a6-9ce4-31b03eee212e",
+    "6f9ba790-ddb0-4db8-b0b6-53c96d954888",
+    "c40fef32-8c71-4f10-a098-9e995e3a8a47"
+  ]
+}
+```
+
+A very simple query to list all of the previously submitted packages.
+
+The output contains a plain list of package IDs, which could be used to check each package status and download if a package is successfully generated.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/packages?apikey={apikey}`
+
+### PUT /packages
+
+> Submit area-based package request for [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request PUT \
+  --url 'http://api.planetos.com/v1/packages?dataset=noaa_ww3_global_1.25x1d&polygon=[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]&apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/packages"
+
+querystring = {
+  "dataset": "noaa_ww3_global_1.25x1d",
+  "polygon": "[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]",
+  "apikey": "{apikey}"
+}
+
+response = requests.request("PUT", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'PUT',
+  url: 'http://api.planetos.com/v1/packages',
+  qs: {
+    dataset: 'noaa_ww3_global_1.25x1d',
+    polygon: '[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]',
+    apikey: '{apikey}'
+  },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+  {
+    "packageKey": "0d823a53-61b7-41a6-9ce4-31b03eee212e",
+    "packageSpec": {
+      "queryFilter": {
+        "datasetKey": "noaa_ww3_global_1.25x1d",
+        "geometryFilter": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]]
+          },
+          "type": "Arbitrary"
+        },
+        "zFilter": {
+          "type": "FirstValue"
+        }
+      }
+    }
+  }
+```
+
+Submit area-based package creation request for bulk data download.
+
+#### HTTP REQUEST
+
+`PUT http://api.planetos.com/v1/packages?dataset=noaa_ww3_global_1.25x1d&polygon=[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]&apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
+
+Query parameters of package creation API could be copied directly from the [`/area`](#datasets-id-area-beta) query. It is designed for the cases where synchronous `/area` query takes too long (for larger time spans or hi-res datasets).
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">dataset</div>
+                    <div class="item required">required</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Dataset ID</div>
+                    <div class="item example">
+                      <code class="prettyprint">noaa_hrrr_surface_hourly
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">polygon</div>
+                    <div class="item required">required</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Polygon defined by the list of Longitude-Latitude pairs.</div>
+                    <div class="item example">
+                      <code class="prettyprint">[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">package</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Custom package ID. Instead of using auto generated UUIDs, it's possible to supply custom unique identifier for your package.</div>
+                    <div class="item example">
+                      <code class="prettyprint">CentralEurope_temperature_2016
+                      </code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#### RESPONSE
+
+The output contains confirmation object with `packageKey` attribute, which can be used to poll packages creation status and download packaged data when it's ready.
+
+### GET /packages/`{id}`
+
+> Request package status by its ID.<br/>
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/packages/{package_id}?apikey={apikey}'
+```
+
+```python
+import requests
+
+package_id = '0d823a53-61b7-41a6-9ce4-31b03eee212e'  # example ID, please replace
+url = "http://api.planetos.com/v1/packages/%s" % (package_id)
+
+querystring = { "apikey": "{apikey}" }
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var package_id= '0d823a53-61b7-41a6-9ce4-31b03eee212e'; // example ID, please replace
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/packages/' + package_id,
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "packageSubmitted": true,
+  "packageStatus": {
+    "message": "success"
+  },
+  "packageResult": {
+    "success": true
+  }
+}
+```
+
+An endpoint for querying submitted package creation status.
+
+The output contains object that contains confirmation that package is in processing queue or successfully generated.
+
+The main attribute for package generation completion is `packageResult.success`.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/packages/<package_id>?apikey={apikey}`
+
+### GET /packages/`{id}`/data
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/packages/{package_id}/data?apikey={apikey}'
+```
+
+An endpoint for fetching zipped NetCDF files by package ID.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/packages/<package_id>?apikey={apikey}`
+
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
 It has short descriptions of query parameters and output JSON schema.
