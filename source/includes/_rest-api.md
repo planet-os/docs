@@ -1003,7 +1003,7 @@ Response format is documented in a separate section — [Data Values Output Form
 > <code class="apikey-placeholder"></code>
 
 ```shell
-curl --request GET \
+curl -g --request GET \
   --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area?polygon=[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]&apikey={apikey}'
 ```
 
@@ -1565,7 +1565,7 @@ The output contains a plain list of package IDs, which could be used to check ea
 > <code class="apikey-placeholder"></code>
 
 ```shell
-curl --request PUT \
+curl -g --request PUT \
   --url 'http://api.planetos.com/v1/packages?dataset=noaa_ww3_global_1.25x1d&polygon=[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]&apikey={apikey}'
 ```
 
