@@ -1767,7 +1767,7 @@ The main attribute for package generation completion is `packageResult.success`.
 ### GET /packages/`{id}`/data
 
 ```shell
-curl --request GET \
+curl --request GET -O \
   --url 'http://api.planetos.com/v1/packages/{package_id}/data?apikey={apikey}'
 ```
 
