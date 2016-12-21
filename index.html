@@ -1196,7 +1196,7 @@
 <p>Request values from the <a href="http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model"><code class="prettyprint">noaa_ww3_global_1.25x1d</code></a> dataset at a specific point coordinate. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
 <code class="apikey-placeholder"></code></p>
 </blockquote>
-<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+<pre class="highlight shell"><code>curl -g --request GET <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/area?polygon=[[-94,26],[-94,23],[-96,23],[-96,26],[-94,26]]&amp;apikey={apikey}'</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1740,7 +1740,7 @@ Make sure to replace <code class="prettyprint">{apikey}</code> with your own API
 <p>Submit area-based package request for <a href="http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model"><code class="prettyprint">noaa_ww3_global_1.25x1d</code></a> dataset. Make sure to replace <code class="prettyprint">{apikey}</code> with your own API key:<br/>
 <code class="apikey-placeholder"></code></p>
 </blockquote>
-<pre class="highlight shell"><code>curl --request PUT <span class="se">\</span>
+<pre class="highlight shell"><code>curl -g --request PUT <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/packages?dataset=noaa_ww3_global_1.25x1d&amp;polygon=[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]&amp;apikey={apikey}'</span>
 </code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
