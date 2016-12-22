@@ -2138,6 +2138,30 @@ Make sure to replace <code class="prettyprint">{apikey}</code> with your own API
 
 <p><code class="prettyprint">GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps/{timestamp}/data?apikey={apikey}</code></p>
 
+<h4 id="http-query-parameters">HTTP QUERY PARAMETERS</h4>
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">horizontal_sampling_maxpoints</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">1000</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Horizontal sampling setting defines desired maximum number of samples on Longitude axis. Default is <code class="prettyprint">1000</code>. To disable sampling and use original data resolution use <code class="prettyprint">false</code> string value.</div>
+                    <div class="item example">
+                      <code class="prettyprint">false</code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 <h2 id="api-console">API Console</h2>
 
 <p><a href="http://api.planetos.com/console/">API Console</a> provides simple UI for building API query interactively.
