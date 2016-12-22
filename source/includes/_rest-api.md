@@ -1985,6 +1985,30 @@ Attributes to plot the data: `lon` for the X axis, `lat` for the Y axis, each ro
 
 `GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps/{timestamp}/data?apikey={apikey}`
 
+#### HTTP QUERY PARAMETERS
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">horizontal_sampling_maxpoints</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">1000</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Horizontal sampling setting defines desired maximum number of samples on Longitude axis. Default is <code class="prettyprint">1000</code>. To disable sampling and use original data resolution use <code class="prettyprint">false</code> string value.</div>
+                    <div class="item example">
+                      <code class="prettyprint">false</code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
 It has short descriptions of query parameters and output JSON schema.
