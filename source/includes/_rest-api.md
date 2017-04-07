@@ -794,7 +794,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#data-point-context">Context section</a>.</div>
+                    <div class="item description">If multiple axes contexts are provided for a dataset, use <em>context</em> to limit which are returned. Multiple contexts can be passed using comma separation. All available contexts are returned by default. More details are in the <a href="#datasets-id-contexts">Contexts API</a>.</div>
                     <div class="item example">main</div>
                 </div>
             </td>
@@ -809,7 +809,7 @@ Provides values for the specified dataset at a given point of interest. Points a
             </td>
             <td>
                 <div class="ui list">
-                    <div class="item description">The total number of results (data samples) to return. Single sample is identified by unique LonLat coordinate and timestamp. Variables from a single sample can be split into <a href="#data-point-context">contexts</a>.</div>
+                    <div class="item description">The total number of results (data samples) to return. Single sample is identified by unique LonLat coordinate and timestamp. Variables from a single sample can be split into <a href="#datasets-id-contexts">contexts</a>.</div>
                     <div class="item example">100</div>
                 </div>
             </td>
@@ -1391,6 +1391,126 @@ Accepts the same query parameters as the [`/point`](#point-endpoint) endpoint.
 #### Response
 Response format is similar to the [`/point`](#point-endpoint) endpoint.
 
+### /datasets/{id}/contexts
+
+> Request contexts of variables from [`noaa_ww3_global_1.25x1d`](http://data.planetos.com/datasets/noaa_ww3_global_1.25x1d:noaa-wave-watch-iii-nww3-ocean-wave-model) dataset. Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/contexts?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/contexts"
+
+querystring = {"apikey":"{apikey}"}
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_ww3_global_1.25x1d/contexts',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "contexts": [
+    {
+      "attributes": [],
+      "contextKey": "reftime_time_lat_lon",
+      "datasetKey": "noaa_ww3_global_1.25x1d",
+      "dimensionKeys": [ "lat", "lon", "time" ],
+      "referenceSystem": {
+        "categoricalAxes": [],
+        "numericalAxes": [],
+        "scopes": [
+          {
+            "scopeSpecification": {
+              "scopeModifiers": [],
+              "scopeVariables": [ "reftime" ]
+            },
+            "scopeType": "reference_time"
+          },
+          {
+            "scopeSpecification": {
+              "scopeModifiers": [],
+              "scopeVariables": [ "time" ]
+            },
+            "scopeType": "axis_t"
+          },
+          {
+            "scopeSpecification": {
+              "scopeModifiers": [ "latitude_longitude" ],
+              "scopeVariables": [ "lat","lon" ]
+            },
+            "scopeType": "location"
+          }
+        ]
+      },
+      "variableKeys": [
+        "Direction_of_wind_waves_surface",
+        "Mean_period_of_wind_waves_surface",
+        "Primary_wave_direction_surface",
+        "Primary_wave_mean_period_surface",
+        "Secondary_wave_direction_surface",
+        "Secondary_wave_mean_period_surface",
+        "Significant_height_of_combined_wind_waves_and_swell_surface",
+        "Significant_height_of_wind_waves_surface",
+        "Wind_direction_from_which_blowing_surface",
+        "Wind_speed_surface",
+        "u-component_of_wind_surface",
+        "v-component_of_wind_surface",
+        "lat",
+        "lon",
+        "reftime",
+        "time"
+      ]
+    }
+  ]
+}
+```
+Get the list of contexts (groups) of dataset's variables.
+
+**Contexts of variables** sounds like something abstract, but in simple terms, context is a group of variables sharing same dimension space.
+
+Some datasets would have only single context, that means that all variables share the very same dimensions. Some datasets contain variables on different altitudes, so every combination of XYZ+time dimension would get its own context. `Lon+Lat+Elevation-10m+Time` and `Lon+Lat+Elevation-90m+Time` are pretty typical groups, sort of layers on different altitudes.
+
+
+#### HTTP REQUEST
+`GET http://api.planetos.com/v1/datasets/{id}/contexts?apikey={apikey}`
+
+#### RESPONSE
+
+A JSON list of objects where every object represents a single context.
+
+Contexts are machine-generated so they might look cryptic, that's why each context has details about dimensions it covers.
+
+`variableKeys` — contains all variables grouped in the context.
+
+`dimensionKeys` — contains names of variables that define dimensions.
+
+`referenceSystem.scopes` — contains suggestion for dimension interpretations, like `"scopeType": "axis_t"` gives a hint that particular dimension is related to time axis. Scope types concept is still in development, and more details will be published soon.
+
+
 ## API output format
 
 ### Data Values Output Format
@@ -1432,69 +1552,12 @@ It is easy to notice that `reftime` is always same as `time` for observational d
 So `reftime` dimension is only useful for forecasts and some modelled datasets, where timestamp of dataset entry creation is different from the timestamp that dataset entry is describing.
 
 Data section of every entry may contain more than one variable. It is possible to query all variables from any dataset by just omitting `var` parameter.
-Please take into account that variables are grouped by `context`. For more details about Contexts see the next section.
+Please take into account that variables are grouped by `context`. For more details about Contexts see the [Contexts API](#datasets-id-contexts).
 
 Here is an example of annotated data sample.
 
 <a href="images/annotated-data-sample-entry.png" data-featherlight><img src="images/annotated-data-sample-entry.png" alt="API Output Sample"/></a>
 
-### Data Point Context
-
-> Multi-context data sample example
-> (two contexts for a single data sample, which defined by LonLat and timestamps)
-
-```json
-[
-  {
-    "context": "reftime_time_hybrid_lat_lon",
-    "axes": {
-      "latitude": 49.495601654052734,
-      "reftime": "2016-09-07T12:00:00",
-      "longitude": -50.507659912109375,
-      "time": "2016-09-07T12:00:00",
-      "z": 1.0
-    },
-    "data": {
-      "u-component_of_wind_hybrid": 6.039999961853027,
-      "v-component_of_wind_hybrid": 0.5799999833106995,
-      "Temperature_hybrid": 286.8609924316406
-    }
-  },
-
-  {
-    "context": "reftime_time_lat_lon",
-    "axes": {
-      "reftime": "2016-09-07T12:00:00",
-      "time": "2016-09-07T12:00:00",
-      "longitude": -50.507659912109375,
-      "latitude": 49.495601654052734
-    },
-    "data": {
-      "Total_cloud_cover_convective_cloud": 0.0,
-      "Downward_Short-Wave_Radiation_Flux_surface": 296.0,
-      "Planetary_Boundary_Layer_Height_surface": 36.0,
-      "Aerodynamic_conductance_surface": 0.0031999999191612005,
-      "Temperature_surface": 282.31201171875,
-      "Pressure_surface": 101690.0,
-      "Upward_Short-Wave_Radiation_Flux_surface": 18.0,
-      "Latent_heat_net_flux_surface": -25.0,
-      "Geopotential_height_surface": -0.004031249787658453,
-      "Upward_Long-Wave_Radp_Flux_surface": 349.0,
-      "Exchange_Coefficient_surface": 0.004100000020116568,
-      "Sensible_heat_net_flux_surface": -20.0,
-      "Frictional_Velocity_surface": 0.14000000059604645,
-      "Downward_Long-Wave_Radp_Flux_surface": 347.0,
-      "Precipitable_water_entire_atmosphere_single_layer": 26.899999618530273
-    }
-  }
-]
-```
-
-Contexts are simply variable groups. Variables that share the same set of dimensions belong to a single shared context.
-Contexts are machine-generated, so it’s not always easy to understand what particular context contains by just looking at its id.
-
-Most common context is *LonLat + Z + time* or *LonLat + Z + time + reftime* for forecasts. But, for example, some datasets could have more than one type of Z dimension, pressure based (in Pascals) and elevation/altitude based (in meters).
-In this cases, variable with Z dimension in Pascals will have a different context than variable with Z dimension in meters.
 
 ## Bulk data packaging (β)
 
