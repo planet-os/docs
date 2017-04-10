@@ -1508,7 +1508,7 @@ Contexts are machine-generated so they might look cryptic, that's why each conte
 
 `dimensionKeys` — contains names of variables that define dimensions.
 
-`referenceSystem.scopes` — contains suggestion for dimension interpretations, like `"scopeType": "axis_t"` gives a hint that particular dimension is related to time axis. Scope types concept is still in development, and more details will be published soon.
+`referenceSystem.scopes` — contains suggestion for dimension interpretations, like `"scopeType": "axis_t"` gives a hint that particular dimension is related to time axis. Here is a list of scope types supported right now: `location`, `axis_t`, `axis_z`, `axis_radial_distance`, `reference_time`, `node`, `classifier`, `instance`, `iter`. The most valuable scope types are the ones representing common dimensions `location`, `axis_t`, `axis_z`, `reference_time`, the rest are auxilary.
 
 
 ## API output format
