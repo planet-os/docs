@@ -1838,7 +1838,7 @@ An endpoint for fetching zipped NetCDF files by package ID.
 
 #### HTTP REQUEST
 
-`GET http://api.planetos.com/v1/packages/<package_id>?apikey={apikey}`
+`GET http://api.planetos.com/v1/packages/<package_id>/data?apikey={apikey}`
 
 ## Experimental Web endpoints (α)
 
