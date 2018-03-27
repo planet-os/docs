@@ -9,7 +9,7 @@ language_tabs:
 
 toc_footers:
   - <a href="http://slack.planetos.com" target="_blank"><img width="130" src="http://slack.planetos.com/badge.svg" /></a>
-  - © 2016 Planet OS Inc.
+  - © 2018 Intertrust Technologies Corporation
 
 includes:
   - datasets
