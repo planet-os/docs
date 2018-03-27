@@ -12,4 +12,4 @@
 [Join the Planet OS Slack Community](http://slack.planetos.com) to discuss new features, request datasets, and ask for help from Planet OS team members and other data enthusiasts.
 
 ## Contact Us
-Feedback, support requests, and other inquiries may be directed to [help@planetos.com](mailto:help@planetos.com "Email Planet OS").
+Feedback, support requests, and other inquiries may be directed to [datahub@intertrust.com](mailto:datahub@intertrust.com "Email Planet OS").

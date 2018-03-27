@@ -2086,7 +2086,7 @@ If the user enters his personal API key into an appropriate query field, API Con
 ## Rate Limits
 API rate limits are dependent on your current [plan](http://data.planetos.com/plans). Free accounts are limited to **100 calls per day.**
 
-If you'd like to request a rate limit increase, please contact [help@planetos.com](mailto:help@planetos.com "Contact Planet OS support staff to request a rate limit increase.") with more information on your needs.
+If you'd like to request a rate limit increase, please contact [datahub@intertrust.com](mailto:datahub@intertrust.com "Contact Planet OS support staff to request a rate limit increase.") with more information on your needs.
 
 ## Policies
 By using the Planet OS REST API, you agree to our [terms of service](http://data.planetos.com/terms "Planet OS Terms of Service"). Please take a moment to review the terms.

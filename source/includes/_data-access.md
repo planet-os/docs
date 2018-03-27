@@ -10,4 +10,4 @@ Data access is limited by both call rate and transfer volume per user. For detai
 
 Free accounts are limited to **100 REST API calls per day** and **5 GB of data transfer per month**.
 
-If your workflow or application requires access that exceeds these limits, please contact [help@planetos.com](mailto:help@planetos.com).
+If your workflow or application requires access that exceeds these limits, please contact [datahub@intertrust.com](mailto:datahub@intertrust.com).
