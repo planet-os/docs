@@ -127,6 +127,20 @@ Filter dataset index by specified criteria. It supports free text search as well
         <tr>
             <td>
                 <div class="ui list">
+                    <div class="item name">variable.standard_name</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Matches on the standard name of any variable in the dataset. Standard names are from the NetCDF-CF standard name table. To search for multiple standard names, they should be comma-separated. Quoted expressions will be treated as a single standard name. E.g., `variable.standard_name=time,"air temperature"` will match datasets that contain variables with standard names matching `time` or `air temperature`. Partial matching is supported via usage of `*` wildcard. E.g., `variable.standard_name="*wind*"` will match datasets containing variables with standard names containing `wind`.</div>
+                    <div class="item example">*wind*</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
                     <div class="item name">variable_partial</div>
                     <div class="item"></div>
                 </div>
