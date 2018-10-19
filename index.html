@@ -230,7 +230,7 @@
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
         <ul class="search-results"></ul>
-      <div id="toc" class="toc-list-h1">
+      <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#planet-os-product-guide" class="toc-h1 toc-link" data-title="Planet OS Product Guide">Planet OS Product Guide</a>
           </li>
@@ -289,6 +289,9 @@
                       <li><a href="#datasets-id-stations" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/stations</a></li>
                       <li><a href="#datasets-id-stations-station_id" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/stations/{station_id}</a></li>
                       <li><a href="#datasets-id-contexts" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/contexts</a></li>
+                      <li><a href="#datasets-id-variables" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/variables</a></li>
+                      <li><a href="#datasets-id-variables-variable-timestamps" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/variables/{variable}/timestamps</a></li>
+                      <li><a href="#datasets-id-variables-variable-preview" class="toc-h3 toc-link" data-title="Dataset Endpoints">/datasets/{id}/variables/{variable}/preview</a></li>
                     </ul>
                   </li>
                   <li>
@@ -299,16 +302,8 @@
                     <ul class="toc-list-h3">
                       <li><a href="#get-packages" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">GET /packages</a></li>
                       <li><a href="#put-packages" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">PUT /packages</a></li>
-                      <li><a href="#get-packages-code-id-code" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">GET /packages/<code>{id}</code></a></li>
-                      <li><a href="#get-packages-code-id-code-data" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">GET /packages/<code>{id}</code>/data</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="#experimental-web-endpoints" class="toc-h2 toc-link" data-title="REST API (v1)">Experimental Web endpoints (α)</a>
-                    <ul class="toc-list-h3">
-                      <li><a href="#get-variables" class="toc-h3 toc-link" data-title="Experimental Web endpoints (α)">GET /variables</a></li>
-                      <li><a href="#get-variables-variable-timestamps" class="toc-h3 toc-link" data-title="Experimental Web endpoints (α)">GET /variables/{variable}/timestamps</a></li>
-                      <li><a href="#get-variables-variable-timestamps-timestamp-data" class="toc-h3 toc-link" data-title="Experimental Web endpoints (α)">GET /variables/{variable}/timestamps/{timestamp}/data</a></li>
+                      <li><a href="#get-packages-id" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">GET /packages/<code>{id}</code></a></li>
+                      <li><a href="#get-packages-id-data" class="toc-h3 toc-link" data-title="Bulk data packaging (β)">GET /packages/<code>{id}</code>/data</a></li>
                     </ul>
                   </li>
                   <li>
@@ -350,7 +345,7 @@
                   </li>
               </ul>
           </li>
-      </div>
+      </ul>
         <ul class="toc-footer">
             <li><a href="http://slack.planetos.com" target="_blank"><img width="130" src="http://slack.planetos.com/badge.svg" /></a></li>
             <li>© 2018 Intertrust Technologies Corporation</li>
@@ -516,6 +511,20 @@
                 <div class="ui list">
                     <div class="item description">Filter by variable key</div>
                     <div class="item example">WIND_SPEED</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">variable.standard_name</div>
+                    <div class="item"></div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Matches on the standard name of any variable in the dataset. Standard names are from the NetCDF-CF standard name table. To search for multiple standard names, they should be comma-separated. Quoted expressions will be treated as a single standard name. E.g., `variable.standard_name=time,"air temperature"` will match datasets that contain variables with standard names matching `time` or `air temperature`. Partial matching is supported via usage of `*` wildcard. E.g., `variable.standard_name="*wind*"` will match datasets containing variables with standard names containing `wind`.</div>
+                    <div class="item example">*wind*</div>
                 </div>
             </td>
         </tr>
@@ -1772,6 +1781,203 @@ curl --request GET <span class="se">\</span>
 <p><code>dimensionKeys</code> — contains names of variables that define dimensions.</p>
 
 <p><code>referenceSystem.scopes</code> — contains suggestion for dimension interpretations, like <code>&quot;scopeType&quot;: &quot;axis_t&quot;</code> gives a hint that particular dimension is related to time axis. Here is a list of scope types supported right now: <code>location</code>, <code>axis_t</code>, <code>axis_z</code>, <code>axis_radial_distance</code>, <code>reference_time</code>, <code>node</code>, <code>classifier</code>, <code>instance</code>, <code>iter</code>. The most valuable scope types are the ones representing common dimensions <code>location</code>, <code>axis_t</code>, <code>axis_z</code>, <code>reference_time</code>, the rest are auxilary.</p>
+<h3 id='datasets-id-variables'>/datasets/{id}/variables</h3>
+<blockquote>
+<p>Request a list of all available variables from particular dataset.<br/>
+Make sure to replace <code>{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables?apikey={apikey}'</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"variableKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Temperature_surface"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"contextKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reftime_time_lat_lon"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"variableType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"data"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dimensionKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lat"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lon"</span><span class="p">],</span><span class="w">
+      </span><span class="s2">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"temporalCoverage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1536872400000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1538373600000</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"variableKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Precipitation_rate_surface_2_Hour_Average"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"contextKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reftime_time1_lat_lon"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"variableType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"data"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dimensionKeys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"time1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lat"</span><span class="p">,</span><span class="w"> </span><span class="s2">"lon"</span><span class="p">],</span><span class="w">
+      </span><span class="s2">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"temporalCoverage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1536890400000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1537408800000</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>A very simple query to list all available variables from a particular dataset.</p>
+
+<p>Each variable has a <code>variableKey</code> for API requests and human-friendly <code>long_name</code> attribute in the list of <code>attributes</code>.</p>
+<h4 id='http-request-11'>HTTP REQUEST</h4>
+<p><code>GET http://api.planetos.com/v1/datasets/{id}/variables?apikey={apikey}</code></p>
+<h3 id='datasets-id-variables-variable-timestamps'>/datasets/{id}/variables/{variable}/timestamps</h3>
+<blockquote>
+<p>Request a list of all available timestamps from particular dataset and provided variable.<br/>
+Make sure to replace <code>{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps?apikey={apikey}'</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="s2">"1482775200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482775200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482796800000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482796800000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482818400000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482818400000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482840000000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482840000000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482861600000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482861600000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482883200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482904800000"</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>A very simple query to list all available timestamps for particular dataset and variable.</p>
+
+<p>Timestamps are in &quot;epoch milliseconds.&quot;</p>
+<h4 id='http-request-12'>HTTP REQUEST</h4>
+<p><code>GET http://api.planetos.com/v1/datasets/{id}/variables/{variable}/timestamps?apikey={apikey}</code></p>
+<h3 id='datasets-id-variables-variable-preview'>/datasets/{id}/variables/{variable}/preview</h3>
+<blockquote>
+<p>Request a data sample from particular dataset and variable covering full spatial resolution of the dataset for a single timestamp.<br/>
+Make sure to replace <code>{apikey}</code> with your own API key:<br/>
+<code class="apikey-placeholder"></code></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
+  --url <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview?apikey={apikey}'</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview"</span>
+
+<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview'</span><span class="p">,</span>
+  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this (snipped is cut to fit):</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1541268000000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"variableKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Temperature_hybrid"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"K"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"bbox"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"latMin"</span><span class="p">:</span><span class="w"> </span><span class="mf">-89.45138549804688</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"latMax"</span><span class="p">:</span><span class="w"> </span><span class="mf">89.76100158691406</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"lonMin"</span><span class="p">:</span><span class="w"> </span><span class="mf">-179.375</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"lonMax"</span><span class="p">:</span><span class="w"> </span><span class="mf">180.0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"lat"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">80.0</span><span class="p">,</span><span class="w"> </span><span class="mf">79.33</span><span class="p">,</span><span class="w"> </span><span class="mf">78.66</span><span class="p">,</span><span class="w"> </span><span class="mf">78.0</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">,</span><span class="w"> </span><span class="mf">-78.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-78.66</span><span class="p">,</span><span class="w"> </span><span class="mf">-79.33</span><span class="p">,</span><span class="w"> </span><span class="mf">-80.0</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.02711682595697867</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.03409404990630811</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.060692500078029496</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.058580634445273394</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.011209596925575731</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.012524769932849181</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.025995750416178534</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.02935991804472002</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.00636995307786792</span><span class="p">,</span><span class="w"> </span><span class="mf">0.002944547254725269</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="mf">-0.04303262674907531</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.027542892698230785</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.024892436973680928</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.018868911062971692</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="mf">-0.011008735306573496</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.009209316019202714</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.010557913755058318</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.0044006413503971985</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.009542706584614492</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.010108897142034697</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.015939873399166467</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">0.005938973218893649</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.011210041432247124</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">0.09552701189844665</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.01748571686550157</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.04741710525163343</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.09562515519618932</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.05986652267218364</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.07228101183713344</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"lon"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-180.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-179.33</span><span class="p">,</span><span class="w"> </span><span class="mf">-178.66</span><span class="p">,</span><span class="w"> </span><span class="mf">-178.0</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">,</span><span class="w"> </span><span class="mf">177.33</span><span class="p">,</span><span class="w"> </span><span class="mf">178.0</span><span class="p">,</span><span class="w"> </span><span class="mf">178.66</span><span class="p">,</span><span class="w"> </span><span class="mf">179.33</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Return an object with X/Y (Longitude/Lattitude) arrays and a two-dimensional array of data values for the provided combination of dataset ID and, its variable and timestamp.</p>
+
+<p>Attributes to plot the data: <code>lon</code> for the X axis, <code>lat</code> for the Y axis, each row in the <code>values</code> array corresponds to a single value of <code>lon</code> and every item in every row corresponds to a value of <code>lat</code>.</p>
+<h4 id='http-request-13'>HTTP REQUEST</h4>
+<p><code>GET http://api.planetos.com/v1/datasets/{id}/variables/{variable}/preview?apikey={apikey}</code></p>
+<h4 id='http-query-parameters-5'>HTTP QUERY PARAMETERS</h4>
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">timestamp</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">latest available</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data sampling request enables selection of particular timestamp. By default system automatically selects latest available timestamp.
+                    <div class="item example">
+                      <code class="prettyprint">1541268000000</code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <h2 id='api-output-format'>API output format</h2><h3 id='data-values-output-format'>Data Values Output Format</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"stats"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"timeMin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-06T18:00:00"</span><span class="p">,</span><span class="w">
@@ -1859,7 +2065,7 @@ Make sure to replace <code>{apikey}</code> with your own API key:<br/>
 <p>A very simple query to list all of the previously submitted packages.</p>
 
 <p>The output contains a plain list of package IDs, which could be used to check each package status and download if a package is successfully generated.</p>
-<h4 id='http-request-11'>HTTP REQUEST</h4>
+<h4 id='http-request-14'>HTTP REQUEST</h4>
 <p><code>GET http://api.planetos.com/v1/packages?apikey={apikey}</code></p>
 <h3 id='put-packages'>PUT /packages</h3>
 <blockquote>
@@ -1922,9 +2128,9 @@ Make sure to replace <code>{apikey}</code> with your own API key:<br/>
   </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Submit area-based package creation request for bulk data download.</p>
-<h4 id='http-request-12'>HTTP REQUEST</h4>
+<h4 id='http-request-15'>HTTP REQUEST</h4>
 <p><code>PUT http://api.planetos.com/v1/packages?dataset=noaa_ww3_global_1.25x1d&amp;polygon=[[-90,32],[-90,23],[-96,23],[-96,32],[-90,32]]&amp;apikey={apikey}</code></p>
-<h4 id='http-query-parameters-5'>HTTP QUERY PARAMETERS</h4>
+<h4 id='http-query-parameters-6'>HTTP QUERY PARAMETERS</h4>
 <p>Query parameters of package creation API could be copied directly from the <a href="#datasets-id-area-beta"><code>/area</code></a> query. It is designed for the cases where synchronous <code>/area</code> query takes too long (for larger time spans or hi-res datasets).</p>
 
 <table class="ui very basic padded table api-parameters">
@@ -1984,7 +2190,7 @@ Make sure to replace <code>{apikey}</code> with your own API key:<br/>
 </table>
 <h4 id='response-10'>RESPONSE</h4>
 <p>The output contains confirmation object with <code>packageKey</code> attribute, which can be used to poll packages creation status and download packaged data when it&#39;s ready.</p>
-<h3 id='get-packages-code-id-code'>GET /packages/<code>{id}</code></h3>
+<h3 id='get-packages-id'>GET /packages/<code>{id}</code></h3>
 <blockquote>
 <p>Request package status by its ID.<br/>
 Make sure to replace <code>{apikey}</code> with your own API key:<br/>
@@ -2036,206 +2242,14 @@ Make sure to replace <code>{apikey}</code> with your own API key:<br/>
 <p>The output contains object that contains confirmation that package is in processing queue or successfully generated.</p>
 
 <p>The main attribute for package generation completion is <code>packageResult.success</code>.</p>
-<h4 id='http-request-13'>HTTP REQUEST</h4>
+<h4 id='http-request-16'>HTTP REQUEST</h4>
 <p><code>GET http://api.planetos.com/v1/packages/&lt;package_id&gt;?apikey={apikey}</code></p>
-<h3 id='get-packages-code-id-code-data'>GET /packages/<code>{id}</code>/data</h3><pre class="highlight shell tab-shell"><code>curl --request GET -O <span class="se">\</span>
+<h3 id='get-packages-id-data'>GET /packages/<code>{id}</code>/data</h3><pre class="highlight shell tab-shell"><code>curl --request GET -O <span class="se">\</span>
   --url <span class="s1">'http://api.planetos.com/v1/packages/{package_id}/data?apikey={apikey}'</span>
 </code></pre>
 <p>An endpoint for fetching zipped NetCDF files by package ID.</p>
-<h4 id='http-request-14'>HTTP REQUEST</h4>
-<p><code>GET http://api.planetos.com/v1/packages/&lt;package_id&gt;/data?apikey={apikey}</code></p>
-<h2 id='experimental-web-endpoints'>Experimental Web endpoints (α)</h2>
-<p>A set of experimental API endpoints for making OpenDAP protocol more accessible for web applications.</p>
-<h3 id='get-variables'>GET /variables</h3>
-<blockquote>
-<p>Request a list of all available variables from particular dataset.<br/>
-Make sure to replace <code>{apikey}</code> with your own API key:<br/>
-<code class="apikey-placeholder"></code></p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
-  --url <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables?apikey={apikey}'</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables"</span>
-
-<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables'</span><span class="p">,</span>
-  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
-<span class="p">};</span>
-
-<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"noaa_gfs_global_sflux_0.12d"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"longName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Temperature @ Ground or water surface"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Temperature_surface"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"longName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ground Heat Flux @ Ground or water surface"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ground_Heat_Flux_surface"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"longName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Downward Long-Wave Rad. Flux @ Ground or water surface"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Downward_Long-Wave_Radp_Flux_surface"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"longName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Downward Short-Wave Radiation Flux @ Ground or water surface"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Downward_Short-Wave_Radiation_Flux_surface"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>A very simple query to list all available variables from a particular dataset.</p>
-
-<p>Each variable has a <code>name</code> for API requests and human-friendly <code>longName</code> for using in UI or data visualizations.</p>
-<h4 id='http-request-15'>HTTP REQUEST</h4>
-<p><code>GET http://api.planetos.com/v1a/datasets/{id}/variables?apikey={apikey}</code></p>
-<h3 id='get-variables-variable-timestamps'>GET /variables/{variable}/timestamps</h3>
-<blockquote>
-<p>Request a list of all available timestamps from particular dataset and provided variable.<br/>
-Make sure to replace <code>{apikey}</code> with your own API key:<br/>
-<code class="apikey-placeholder"></code></p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
-  --url <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps?apikey={apikey}'</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps"</span>
-
-<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps'</span><span class="p">,</span>
-  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
-<span class="p">};</span>
-
-<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="s2">"1482775200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482775200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482796800000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482796800000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482818400000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482818400000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482840000000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482840000000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482861600000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482861600000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482883200000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"1482904800000"</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>A very simple query to list all available timestamps for particular dataset and variable.</p>
-
-<p>Timestamps are in &quot;epoch milliseconds.&quot;</p>
-<h4 id='http-request-16'>HTTP REQUEST</h4>
-<p><code>GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps?apikey={apikey}</code></p>
-<h3 id='get-variables-variable-timestamps-timestamp-data'>GET /variables/{variable}/timestamps/{timestamp}/data</h3>
-<blockquote>
-<p>Request a list of all available timestamps from particular dataset and provided variable.<br/>
-Make sure to replace <code>{apikey}</code> with your own API key:<br/>
-<code class="apikey-placeholder"></code></p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl --request GET <span class="se">\</span>
-  --url <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data?apikey={apikey}'</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data"</span>
-
-<span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"apikey"</span><span class="p">:</span> <span class="s">"{apikey}"</span> <span class="p">}</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data'</span><span class="p">,</span>
-  <span class="na">qs</span><span class="p">:</span> <span class="p">{</span> <span class="na">apikey</span><span class="p">:</span> <span class="s1">'{apikey}'</span> <span class="p">},</span>
-<span class="p">};</span>
-
-<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this (snipped is cut to fit):</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"lat"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">80.0</span><span class="p">,</span><span class="w"> </span><span class="mf">79.33</span><span class="p">,</span><span class="w"> </span><span class="mf">78.66</span><span class="p">,</span><span class="w"> </span><span class="mf">78.0</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">,</span><span class="w"> </span><span class="mf">-78.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-78.66</span><span class="p">,</span><span class="w"> </span><span class="mf">-79.33</span><span class="p">,</span><span class="w"> </span><span class="mf">-80.0</span><span class="p">],</span><span class="w">
-    </span><span class="s2">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.02711682595697867</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.03409404990630811</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.060692500078029496</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.058580634445273394</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.011209596925575731</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.012524769932849181</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.025995750416178534</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.02935991804472002</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.00636995307786792</span><span class="p">,</span><span class="w"> </span><span class="mf">0.002944547254725269</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="mf">-0.04303262674907531</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.027542892698230785</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.024892436973680928</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.018868911062971692</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="mf">-0.011008735306573496</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.009209316019202714</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.010557913755058318</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.0044006413503971985</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.009542706584614492</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.010108897142034697</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.015939873399166467</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">0.005938973218893649</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.011210041432247124</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">0.09552701189844665</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.01748571686550157</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.04741710525163343</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-        </span><span class="p">[</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.09562515519618932</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.05986652267218364</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.07228101183713344</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">],</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"lon"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">-180.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-179.33</span><span class="p">,</span><span class="w"> </span><span class="mf">-178.66</span><span class="p">,</span><span class="w"> </span><span class="mf">-178.0</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">,</span><span class="w"> </span><span class="mf">177.33</span><span class="p">,</span><span class="w"> </span><span class="mf">178.0</span><span class="p">,</span><span class="w"> </span><span class="mf">178.66</span><span class="p">,</span><span class="w"> </span><span class="mf">179.33</span><span class="p">],</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1480982400000"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"opendapQuery"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://thredds.planetos.com/thredds/dodsC/…"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"meter/sec"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"bbox"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"latMax"</span><span class="p">:</span><span class="w"> </span><span class="mf">-80.0</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"lonMin"</span><span class="p">:</span><span class="w"> </span><span class="mf">-180.0</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"lonMax"</span><span class="p">:</span><span class="w"> </span><span class="mf">179.33333333333331</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"latMin"</span><span class="p">:</span><span class="w"> </span><span class="mf">80.0</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>Return an object with X/Y (Longitude/Lattitude) arrays and a two-dimensional array of data values for the provided combination of dataset ID and, its variable and timestamp.</p>
-
-<p>Attributes to plot the data: <code>lon</code> for the X axis, <code>lat</code> for the Y axis, each row in the <code>values</code> array corresponds to a single value of <code>lon</code> and every item in every row corresponds to a value of <code>lat</code>.</p>
 <h4 id='http-request-17'>HTTP REQUEST</h4>
-<p><code>GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps/{timestamp}/data?apikey={apikey}</code></p>
-<h4 id='http-query-parameters-6'>HTTP QUERY PARAMETERS</h4>
-<table class="ui very basic padded table api-parameters">
-    <tbody>
-        <tr>
-            <td>
-                <div class="ui list">
-                    <div class="item name">horizontal_sampling_maxpoints</div>
-                    <div class="item optional">optional</div>
-                    <div class="item default">1000</div>
-                </div>
-            </td>
-            <td>
-                <div class="ui list">
-                    <div class="item description">Horizontal sampling setting defines desired maximum number of samples on Longitude axis. Default is <code class="prettyprint">1000</code>. To disable sampling and use original data resolution use <code class="prettyprint">false</code> string value.</div>
-                    <div class="item example">
-                      <code class="prettyprint">false</code>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<p><code>GET http://api.planetos.com/v1/packages/&lt;package_id&gt;/data?apikey={apikey}</code></p>
 <h2 id='api-console'>API Console</h2>
 <p><a href="http://api.planetos.com/console/">API Console</a> provides simple UI for building API query interactively.
 It has short descriptions of query parameters and output JSON schema.
