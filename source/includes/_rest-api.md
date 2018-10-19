@@ -1524,6 +1524,240 @@ Contexts are machine-generated so they might look cryptic, that's why each conte
 
 `referenceSystem.scopes` — contains suggestion for dimension interpretations, like `"scopeType": "axis_t"` gives a hint that particular dimension is related to time axis. Here is a list of scope types supported right now: `location`, `axis_t`, `axis_z`, `axis_radial_distance`, `reference_time`, `node`, `classifier`, `instance`, `iter`. The most valuable scope types are the ones representing common dimensions `location`, `axis_t`, `axis_z`, `reference_time`, the rest are auxilary.
 
+### /datasets/{id}/variables
+
+> Request a list of all available variables from particular dataset.<br/>
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables"
+
+querystring = { "apikey": "{apikey}" }
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "variables": [
+    {
+      "variableKey": "Temperature_surface",
+      "contextKey": "reftime_time_lat_lon",
+      "variableType": "data",
+      "dimensionKeys": ["time", "lat", "lon"],
+      "attributes": [],
+      "temporalCoverage": {
+        "start": 1536872400000,
+        "end": 1538373600000
+      }
+    },
+    {
+      "variableKey": "Precipitation_rate_surface_2_Hour_Average",
+      "contextKey": "reftime_time1_lat_lon",
+      "variableType": "data",
+      "dimensionKeys": ["time1", "lat", "lon"],
+      "attributes": [],
+      "temporalCoverage": {
+        "start": 1536890400000,
+        "end": 1537408800000
+      }
+    }
+  ]
+
+}
+```
+
+A very simple query to list all available variables from a particular dataset.
+
+Each variable has a `variableKey` for API requests and human-friendly `long_name` attribute in the list of `attributes`.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/datasets/{id}/variables?apikey={apikey}`
+
+### /datasets/{id}/variables/{variable}/timestamps
+
+> Request a list of all available timestamps from particular dataset and provided variable.<br/>
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps"
+
+querystring = { "apikey": "{apikey}" }
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/timestamps',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+["1482775200000", "1482775200000", "1482796800000", "1482796800000", "1482818400000", "1482818400000", "1482840000000", "1482840000000", "1482861600000", "1482861600000", "1482883200000", "1482904800000"]
+```
+
+A very simple query to list all available timestamps for particular dataset and variable.
+
+Timestamps are in "epoch milliseconds."
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/datasets/{id}/variables/{variable}/timestamps?apikey={apikey}`
+
+### /datasets/{id}/variables/{variable}/preview
+
+> Request a data sample from particular dataset and variable covering full spatial resolution of the dataset for a single timestamp.<br/>
+> Make sure to replace `{apikey}` with your own API key:<br/>
+> <code class="apikey-placeholder"></code>
+
+```shell
+curl --request GET \
+  --url 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview?apikey={apikey}'
+```
+
+```python
+import requests
+
+url = "http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview"
+
+querystring = { "apikey": "{apikey}" }
+
+response = requests.request("GET", url, params=querystring)
+
+print(response.text)
+```
+
+```javascript
+var request = require("request");
+
+var options = { method: 'GET',
+  url: 'http://api.planetos.com/v1/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_hybrid/preview',
+  qs: { apikey: '{apikey}' },
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+
+```
+
+> The above command returns JSON structured like this (snipped is cut to fit):
+
+```json
+{
+    "timestamp": 1541268000000,
+    "variableKey": "Temperature_hybrid",
+    "metadata": {
+        "unit": "K",
+        "bbox": {
+          "latMin": -89.45138549804688,
+          "latMax": 89.76100158691406,
+          "lonMin": -179.375,
+          "lonMax": 180.0
+        }
+    },
+    "lat": [80.0, 79.33, 78.66, 78.0, …, -78.0, -78.66, -79.33, -80.0],
+    "values": [
+        [null, null, null, null, null, null, -0.02711682595697867, -0.03409404990630811, …],
+        [null, null, null, null, null, null, -0.060692500078029496, -0.058580634445273394, …],
+        [null, null, null, null, -0.011209596925575731, -0.012524769932849181, -0.025995750416178534, …],
+        [null, null, null, null, null, -0.02935991804472002, -0.00636995307786792, 0.002944547254725269, …],
+        [-0.04303262674907531, -0.027542892698230785, -0.024892436973680928, -0.018868911062971692, …],
+        [-0.011008735306573496, -0.009209316019202714, -0.010557913755058318, -0.0044006413503971985, …],
+        [null, null, null, -0.009542706584614492, -0.010108897142034697, -0.015939873399166467, …],
+        [null, null, null, null, null, null, 0.005938973218893649, -0.011210041432247124, …],
+        [null, null, 0.09552701189844665, -0.01748571686550157, -0.04741710525163343, …],
+        [null, -0.09562515519618932, -0.05986652267218364, -0.07228101183713344, …],
+    ],
+    "lon": [-180.0, -179.33, -178.66, -178.0, …, 177.33, 178.0, 178.66, 179.33]
+}
+```
+
+Return an object with X/Y (Longitude/Lattitude) arrays and a two-dimensional array of data values for the provided combination of dataset ID and, its variable and timestamp.
+
+Attributes to plot the data: `lon` for the X axis, `lat` for the Y axis, each row in the `values` array corresponds to a single value of `lon` and every item in every row corresponds to a value of `lat`.
+
+#### HTTP REQUEST
+
+`GET http://api.planetos.com/v1/datasets/{id}/variables/{variable}/preview?apikey={apikey}`
+
+#### HTTP QUERY PARAMETERS
+
+<table class="ui very basic padded table api-parameters">
+    <tbody>
+        <tr>
+            <td>
+                <div class="ui list">
+                    <div class="item name">timestamp</div>
+                    <div class="item optional">optional</div>
+                    <div class="item default">latest available</div>
+                </div>
+            </td>
+            <td>
+                <div class="ui list">
+                    <div class="item description">Data sampling request enables selection of particular timestamp. By default system automatically selects latest available timestamp.
+                    <div class="item example">
+                      <code class="prettyprint">1541268000000</code>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 ## API output format
 
@@ -1854,237 +2088,6 @@ An endpoint for fetching zipped NetCDF files by package ID.
 
 `GET http://api.planetos.com/v1/packages/<package_id>/data?apikey={apikey}`
 
-## Experimental Web endpoints (α)
-
-A set of experimental API endpoints for making OpenDAP protocol more accessible for web applications.
-
-### GET /variables
-
-> Request a list of all available variables from particular dataset.<br/>
-> Make sure to replace `{apikey}` with your own API key:<br/>
-> <code class="apikey-placeholder"></code>
-
-```shell
-curl --request GET \
-  --url 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables?apikey={apikey}'
-```
-
-```python
-import requests
-
-url = "http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables"
-
-querystring = { "apikey": "{apikey}" }
-
-response = requests.request("GET", url, params=querystring)
-
-print(response.text)
-```
-
-```javascript
-var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables',
-  qs: { apikey: '{apikey}' },
-};
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "noaa_gfs_global_sflux_0.12d": [
-    {
-      "longName": "Temperature @ Ground or water surface",
-      "name": "Temperature_surface"
-    },
-    {
-      "longName": "Ground Heat Flux @ Ground or water surface",
-      "name": "Ground_Heat_Flux_surface"
-    },
-    {
-      "longName": "Downward Long-Wave Rad. Flux @ Ground or water surface",
-      "name": "Downward_Long-Wave_Radp_Flux_surface"
-    },
-    {
-      "longName": "Downward Short-Wave Radiation Flux @ Ground or water surface",
-      "name": "Downward_Short-Wave_Radiation_Flux_surface"
-    }
-  ]
-}
-```
-
-A very simple query to list all available variables from a particular dataset.
-
-Each variable has a `name` for API requests and human-friendly `longName` for using in UI or data visualizations.
-
-#### HTTP REQUEST
-
-`GET http://api.planetos.com/v1a/datasets/{id}/variables?apikey={apikey}`
-
-### GET /variables/{variable}/timestamps
-
-> Request a list of all available timestamps from particular dataset and provided variable.<br/>
-> Make sure to replace `{apikey}` with your own API key:<br/>
-> <code class="apikey-placeholder"></code>
-
-```shell
-curl --request GET \
-  --url 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps?apikey={apikey}'
-```
-
-```python
-import requests
-
-url = "http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps"
-
-querystring = { "apikey": "{apikey}" }
-
-response = requests.request("GET", url, params=querystring)
-
-print(response.text)
-```
-
-```javascript
-var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps',
-  qs: { apikey: '{apikey}' },
-};
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
-```
-
-> The above command returns JSON structured like this:
-
-```json
-["1482775200000", "1482775200000", "1482796800000", "1482796800000", "1482818400000", "1482818400000", "1482840000000", "1482840000000", "1482861600000", "1482861600000", "1482883200000", "1482904800000"]
-```
-
-A very simple query to list all available timestamps for particular dataset and variable.
-
-Timestamps are in "epoch milliseconds."
-
-#### HTTP REQUEST
-
-`GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps?apikey={apikey}`
-
-### GET /variables/{variable}/timestamps/{timestamp}/data
-
-> Request a list of all available timestamps from particular dataset and provided variable.<br/>
-> Make sure to replace `{apikey}` with your own API key:<br/>
-> <code class="apikey-placeholder"></code>
-
-```shell
-curl --request GET \
-  --url 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data?apikey={apikey}'
-```
-
-```python
-import requests
-
-url = "http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data"
-
-querystring = { "apikey": "{apikey}" }
-
-response = requests.request("GET", url, params=querystring)
-
-print(response.text)
-```
-
-```javascript
-var request = require("request");
-
-var options = { method: 'GET',
-  url: 'http://api.planetos.com/v1a/datasets/noaa_gfs_global_sflux_0.12d/variables/Temperature_surface/timestamps/1482904800000/data',
-  qs: { apikey: '{apikey}' },
-};
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-
-```
-
-> The above command returns JSON structured like this (snipped is cut to fit):
-
-```json
-{
-    "lat": [80.0, 79.33, 78.66, 78.0, …, -78.0, -78.66, -79.33, -80.0],
-    "values": [
-        [null, null, null, null, null, null, -0.02711682595697867, -0.03409404990630811, …],
-        [null, null, null, null, null, null, -0.060692500078029496, -0.058580634445273394, …],
-        [null, null, null, null, -0.011209596925575731, -0.012524769932849181, -0.025995750416178534, …],
-        [null, null, null, null, null, -0.02935991804472002, -0.00636995307786792, 0.002944547254725269, …],
-        [-0.04303262674907531, -0.027542892698230785, -0.024892436973680928, -0.018868911062971692, …],
-        [-0.011008735306573496, -0.009209316019202714, -0.010557913755058318, -0.0044006413503971985, …],
-        [null, null, null, -0.009542706584614492, -0.010108897142034697, -0.015939873399166467, …],
-        [null, null, null, null, null, null, 0.005938973218893649, -0.011210041432247124, …],
-        [null, null, 0.09552701189844665, -0.01748571686550157, -0.04741710525163343, …],
-        [null, -0.09562515519618932, -0.05986652267218364, -0.07228101183713344, …],
-    ],
-    "lon": [-180.0, -179.33, -178.66, -178.0, …, 177.33, 178.0, 178.66, 179.33],
-    "metadata": {
-        "timestamp": "1480982400000",
-        "opendapQuery": "http://thredds.planetos.com/thredds/dodsC/…",
-        "unit": "meter/sec",
-        "bbox": {
-            "latMax": -80.0,
-            "lonMin": -180.0,
-            "lonMax": 179.33333333333331,
-            "latMin": 80.0
-        }
-    }
-}
-```
-
-Return an object with X/Y (Longitude/Lattitude) arrays and a two-dimensional array of data values for the provided combination of dataset ID and, its variable and timestamp.
-
-Attributes to plot the data: `lon` for the X axis, `lat` for the Y axis, each row in the `values` array corresponds to a single value of `lon` and every item in every row corresponds to a value of `lat`.
-
-#### HTTP REQUEST
-
-`GET http://api.planetos.com/v1a/datasets/{id}/variables/{variable}/timestamps/{timestamp}/data?apikey={apikey}`
-
-#### HTTP QUERY PARAMETERS
-
-<table class="ui very basic padded table api-parameters">
-    <tbody>
-        <tr>
-            <td>
-                <div class="ui list">
-                    <div class="item name">horizontal_sampling_maxpoints</div>
-                    <div class="item optional">optional</div>
-                    <div class="item default">1000</div>
-                </div>
-            </td>
-            <td>
-                <div class="ui list">
-                    <div class="item description">Horizontal sampling setting defines desired maximum number of samples on Longitude axis. Default is <code class="prettyprint">1000</code>. To disable sampling and use original data resolution use <code class="prettyprint">false</code> string value.</div>
-                    <div class="item example">
-                      <code class="prettyprint">false</code>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
 
 ## API Console
 [API Console](http://api.planetos.com/console/) provides simple UI for building API query interactively.
